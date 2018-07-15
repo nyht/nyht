@@ -30,6 +30,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Nyht\Logger;
 use Nyht\FilesystemUtil;
 use Nyht\ProjectGenerator;
+use Symfony\Component\Console\Input\InputOption;
 
 class GenerateProjectCommand extends Command
 {
@@ -37,7 +38,8 @@ class GenerateProjectCommand extends Command
     {
         $this->setName("project:generate")
                 ->setDescription("Generates the application")
-                ->addArgument('path', InputArgument::REQUIRED, "Project's path");
+                ->addArgument('path', InputArgument::REQUIRED, "Project's path")
+                ->addOption('nocomposer', null, InputOption::VALUE_NONE, 'Do not run composer');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -45,9 +47,12 @@ class GenerateProjectCommand extends Command
         Logger::out($output); //initialise logger
         Logger::out()->notice('Generating project');
         $path = $input->getArgument('path');
+        $runComposer = $input->getOption('nocomposer') === true ? false : true;
         FilesystemUtil::get($path); //initialise filesystem util
+
         $projectGenerator = new ProjectGenerator();
-        $projectGenerator->run();
+        $projectGenerator->run($runComposer);
+
         Logger::out()->notice('Finished');
     }
 }

@@ -38,9 +38,9 @@ class ProjectGenerator
         $this->schema = $conn->getSchemaManager();
     }
 
-    public function run()
+    public function run(bool $runComposer)
     {
-        $this->runComposer();
+        if ($runComposer) $this->runComposer();
         $this->getAllTables();
     }
 

@@ -8,6 +8,7 @@ return [
             "dbname" => "dbname",
             "user" => "user",
             "password" => "password",
-        ]
+        ],
+        "composer_path" => "composer.phar"
     ]
 ];

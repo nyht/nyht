@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
 {
 
     //Folder structure
-    public const CONFIG_FILE_NAME = 'config.cfg';
+    public const CONFIG_FILE_NAME = 'generation.cfg.php';
     public const COMPOSER_FILE_NAME = 'composer.json';
     public const PUBLIC_FOLDER = 'public_html';
     public const APPLICATION_FOLDER = 'app';
@@ -46,7 +46,7 @@ class Configuration implements ConfigurationInterface
 
     public function __construct()
     {
-        $cfgContent = json_decode(FilesystemUtil::get()->readFile(Configuration::CONFIG_FILE_NAME), true);
+        $cfgContent = FilesystemUtil::get()->requireFile(Configuration::CONFIG_FILE_NAME);
         $processor = new Processor();
         $this->configurationData = $processor->processConfiguration($this, $cfgContent);
     }

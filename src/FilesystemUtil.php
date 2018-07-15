@@ -71,6 +71,11 @@ final class FilesystemUtil
         return file_get_contents($this->path.'/'.$file);
     }
 
+    public function requireFile(string $file)
+    {
+        return require($this->path.'/'.$file);
+    }
+
     public function root()
     {
         return $this->path;

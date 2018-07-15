@@ -35,6 +35,7 @@ class Configuration implements ConfigurationInterface
     public const COMPOSER_FILE_NAME = 'composer.json';
     public const PUBLIC_FOLDER = 'public_html';
     public const APPLICATION_FOLDER = 'app';
+    public const ROUTES_FILE = 'app/routes.php';
 
     //Configuration file
     public const ROOT_NODE = 'application';

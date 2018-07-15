@@ -44,6 +44,7 @@ class ProjectGenerator
             $this->runComposer();
         }
         $this->getAllTables();
+        $this->generateRoutes();
     }
 
     private function runComposer()
@@ -58,9 +59,18 @@ class ProjectGenerator
 
     private function getAllTables()
     {
-        $tables = array();
+        $this->tables = array();
         foreach ($this->schema->listTables() as $table) {
-            $tables[] = $table->getName();
+            $this->tables[] = strtolower($table->getName());
         }
+    }
+
+    private function generateRoutes()
+    {
+        $routes = '<?php'.PHP_EOL.PHP_EOL;
+        foreach ($this->tables as $table) {
+            $routes .= 'require __DIR__.\'/controller/'.GeneratorUtil::encodeDbOject($table).'.php\';'.PHP_EOL;
+        }
+        FilesystemUtil::get()->dumpFile(Configuration::ROUTES_FILE, $routes);
     }
 }

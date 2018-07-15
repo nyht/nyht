@@ -51,9 +51,14 @@ final class FilesystemUtil
         return $this->fs->exists($this->path.'/'.$file);
     }
 
-    public function mkdir(string $dir = null)
+    public function mkdirRoot()
     {
-        $this->fs->mkdir($this->path.'/'.$dir);
+        $this->fs->mkdir($this->path);
+    }
+
+    public function mirror(string $dir)
+    {
+        $this->fs->mirror($dir, $this->path);
     }
 
     public function dumpFile(string $file, string $content)

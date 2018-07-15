@@ -29,57 +29,10 @@ class ProjectCreator
 {
     public function run()
     {
-        $this->createFolders();
-        $this->createConfig();
-        $this->createComposer();
-    }
-
-    private function createFolders()
-    {
-        Logger::out()->info("Creating folder");
         if (FilesystemUtil::get()->exists()) {
             throw new \Exception("Folder already exists. Choose another folder and try again");
         }
-        FilesystemUtil::get()->mkdir();
-        FilesystemUtil::get()->mkdir(Configuration::PUBLIC_FOLDER);
-        FilesystemUtil::get()->mkdir(Configuration::APPLICATION_FOLDER);
-    }
-
-    private function createConfig()
-    {
-        Logger::out()->info("Creating config file");
-        $content = <<<EOT
-        {    
-            "application": {
-                "connection_parameters": 
-                    {
-                        "driver": "driver",
-                        "host": "localhost",
-                        "dbname": "dbname",
-                        "user": "user",
-                        "password": "password",
-                    }
-            }
-        }
-EOT;
-        FilesystemUtil::get()->dumpFile(Configuration::CONFIG_FILE_NAME, $content);
-    }
-
-    private function createComposer()
-    {
-        Logger::out()->info("Creating composer file");
-        $app = Configuration::APPLICATION_FOLDER;
-        $content = <<<EOT
-        {
-            "name": "app",
-            "require": {
-                "slim/slim": "3.10.0",
-                "doctrine/dbal": "2.7.1"
-            },
-            "autoload": {
-                "psr-4": {"App\\\\": "{$app}/"}
-        }
-EOT;
-        FilesystemUtil::get()->dumpFile(Configuration::COMPOSER_FILE_NAME, $content);
+        FilesystemUtil::get()->mkdirRoot();
+        FilesystemUtil::get()->mirror(__DIR__.'/template');
     }
 }

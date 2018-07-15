@@ -40,7 +40,9 @@ class ProjectGenerator
 
     public function run(bool $runComposer)
     {
-        if ($runComposer) $this->runComposer();
+        if ($runComposer) {
+            $this->runComposer();
+        }
         $this->getAllTables();
     }
 

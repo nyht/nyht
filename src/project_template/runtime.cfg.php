@@ -7,13 +7,13 @@ return [
 
         // Renderer settings
         'renderer' => [
-            'template_path' => __DIR__ . '/../templates/',
+            'template_path' => __DIR__ . '/../app/view/',
         ],
 
         // Monolog settings
         'logger' => [
             'name' => 'nyht-app',
-            'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
+            'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/log/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
     ],

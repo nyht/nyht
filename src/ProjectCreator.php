@@ -75,7 +75,7 @@ EOT;
             "require": {
                 "slim/slim": "3.10.0",
                 "doctrine/dbal": "2.7.1"
-            },        
+            },
             "autoload": {
                 "psr-4": {"App\\\\": "{$app}/"}
         }

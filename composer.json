@@ -6,7 +6,8 @@
         "symfony/config": "4.1.1",
         "symfony/filesystem": "4.1.1",
         "doctrine/dbal": "2.8.0",
-        "psr/log": "1.0.2"        
+        "psr/log": "1.0.2",
+        "slim/slim": "3.10.0"        
     },
 
     "autoload": {

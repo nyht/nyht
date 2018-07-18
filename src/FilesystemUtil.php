@@ -51,14 +51,24 @@ final class FilesystemUtil
         return $this->fs->exists($this->path.'/'.$file);
     }
 
+    public function remove(string $dir)
+    {
+        $this->fs->remove($this->path.'/'.$dir.'/');
+    }
+
     public function mkdirRoot()
     {
         $this->fs->mkdir($this->path);
     }
 
-    public function mirror(string $dir)
+    public function mkdir(string $dir)
     {
-        $this->fs->mirror($dir, $this->path);
+        $this->fs->mkdir($this->path.'/'.$dir);
+    }
+
+    public function mirror(string $source, string $dest = null)
+    {
+        $this->fs->mirror($source, $dest === null ? $this->path : $this->path.'/'.$dest);
     }
 
     public function dumpFile(string $file, string $content)

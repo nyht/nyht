@@ -29,7 +29,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Nyht\Logger;
 use Nyht\FilesystemUtil;
-use Nyht\ProjectGenerator;
+use Nyht\Generator\AppGenerator;
 use Symfony\Component\Console\Input\InputOption;
 
 class GenerateProjectCommand extends Command
@@ -50,8 +50,8 @@ class GenerateProjectCommand extends Command
         $runComposer = $input->getOption('nocomposer') === true ? false : true;
         FilesystemUtil::get($path); //initialise filesystem util
 
-        $projectGenerator = new ProjectGenerator();
-        $projectGenerator->run($runComposer);
+        $appGenerator = new AppGenerator();
+        $appGenerator->run($runComposer);
 
         Logger::out()->notice('Finished');
     }

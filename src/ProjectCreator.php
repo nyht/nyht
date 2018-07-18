@@ -33,6 +33,6 @@ class ProjectCreator
             throw new \Exception("Folder already exists. Choose another folder and try again");
         }
         FilesystemUtil::get()->mkdirRoot();
-        FilesystemUtil::get()->mirror(__DIR__.'/template');
+        FilesystemUtil::get()->mirror(__DIR__.'/project_template');
     }
 }

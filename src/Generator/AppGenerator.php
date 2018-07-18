@@ -19,13 +19,15 @@
  * along with Nyht.  If not, see <https://www.gnu.org/licenses/>
  */
 
-namespace Nyht;
+namespace Nyht\Generator;
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 
 use Doctrine\DBAL\DriverManager;
+use Nyht\FilesystemUtil;
+use Nyht\Configuration;
 
-class ProjectGenerator
+class AppGenerator
 {
     private $configuration;
     private $tables;
@@ -34,17 +36,25 @@ class ProjectGenerator
     public function __construct()
     {
         $this->configuration = new Configuration();
-        $conn = DriverManager::getConnection($this->configuration->get(Configuration::CONNECTION_PARAMETERS));
-        $this->schema = $conn->getSchemaManager();
+        // $conn = DriverManager::getConnection($this->configuration->get(Configuration::CONNECTION_PARAMETERS));
+        // $this->schema = $conn->getSchemaManager();
     }
 
     public function run(bool $runComposer)
     {
-        if ($runComposer) {
-            $this->runComposer();
-        }
-        $this->getAllTables();
-        $this->generateRoutes();
+        $this->clear();
+        // if ($runComposer) {
+        //     $this->runComposer();
+        // }
+        // $this->getAllTables();
+        // $this->generateRoutes();
+        // $this->generateControllers();
+    }
+
+    private function clear()
+    {
+        FilesystemUtil::get()->remove(Configuration::APPLICATION_FOLDER);
+        FilesystemUtil::get()->mirror(__DIR__.'/../project_template/app', Configuration::APPLICATION_FOLDER);
     }
 
     private function runComposer()
@@ -72,5 +82,13 @@ class ProjectGenerator
             $routes .= 'require __DIR__.\'/controller/'.GeneratorUtil::encodeDbOject($table).'.php\';'.PHP_EOL;
         }
         FilesystemUtil::get()->dumpFile(Configuration::ROUTES_FILE, $routes);
+    }
+
+    private function generateControllers() {
+        foreach ($this->tables as $table) {
+            $controller = '<?php'.PHP_EOL.PHP_EOL;
+
+            FilesystemUtil::get()->dumpFile(Configuration::CONTROLLER_FOLDER.'/'.GeneratorUtil::encodeDbOject($table).'.php', $routes);
+        }
     }
 }

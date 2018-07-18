@@ -30,12 +30,17 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 class Configuration implements ConfigurationInterface
 {
 
-    //Folder structure
+    //Generator structure
+    public const PROJECT_TEMPLATE_FOLDER = 'project_template';
+
+
+    //Generated structure
     public const CONFIG_FILE_NAME = 'generation.cfg.php';
     public const COMPOSER_FILE_NAME = 'composer.json';
     public const PUBLIC_FOLDER = 'public_html';
     public const APPLICATION_FOLDER = 'app';
     public const ROUTES_FILE = 'app/routes.php';
+    public const CONTROLLER_FOLDER = 'app/controller';
 
     //Configuration file
     public const ROOT_NODE = 'application';

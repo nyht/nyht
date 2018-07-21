@@ -26,6 +26,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Nyht\Generator\Schema;
 
 class Configuration implements ConfigurationInterface
 {
@@ -55,6 +56,7 @@ class Configuration implements ConfigurationInterface
         $cfgContent = FilesystemUtil::get()->requireFile(Configuration::CONFIG_FILE_NAME);
         $processor = new Processor();
         $this->configurationData = $processor->processConfiguration($this, $cfgContent);
+        var_dump($this->configurationData);
     }
 
     /**
@@ -77,9 +79,16 @@ class Configuration implements ConfigurationInterface
         $conNode = $rootNode->children()
             ->scalarNode(Configuration::COMPOSER_PATH)
                 ->defaultValue('composer.phar')
-                ->end()
+            ->end()
             ->arrayNode(Configuration::SCHEMA_NODE)
+                ->useAttributeAsKey('name')
+                ->arrayPrototype()
+                    ->children()
+                        ->scalarNode(Schema::SANE_NAME)
+                            ->cannotBeEmpty()->end()
+                    ->end()
                 ->end()
+            ->end()
             ->arrayNode(Configuration::CONNECTION_PARAMETERS)
                 ->isRequired();
         foreach ($dbalConnection as $dc) {
@@ -93,6 +102,15 @@ class Configuration implements ConfigurationInterface
 
     public function get(string $configurationKey)
     {
-        return $this->configurationData[$configurationKey];
+        return $this->configurationData[$configurationKey] ?? null;
+    }
+
+    public function tableConfig(string $tableName)
+    {
+        $config = null;
+        if (isset($this->configurationData[Configuration::SCHEMA_NODE])) {
+            $config = $this->configurationData[Configuration::SCHEMA_NODE][$tableName] ?? null;
+        }
+        return $config;
     }
 }

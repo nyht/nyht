@@ -56,7 +56,9 @@ class Schema
     {     
         foreach ($this->schemaManager->listTables() as $table) {
             $tableName = $table->getName();
-            $this->schema[$tableName] = array(Schema::SANE_NAME => $this->saneName($tableName));
+            $tableConfig = $this->configuration->tableConfig($tableName);
+            $tableSaneName = ($tableConfig && isset($tableConfig[Schema::SANE_NAME])) ? $tableConfig[Schema::SANE_NAME] : $this->saneName($tableName);
+            $this->schema[$tableName] = array(Schema::SANE_NAME => $tableSaneName);
         }
     }
 

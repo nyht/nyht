@@ -26,7 +26,6 @@ use Nyht\Configuration;
 
 class Schema
 {
-
     public const SANE_NAME = 'sane_name';
 
     private $configuration;
@@ -53,7 +52,7 @@ class Schema
     }
 
     private function getTables()
-    {     
+    {
         foreach ($this->schemaManager->listTables() as $table) {
             $tableName = $table->getName();
             $tableConfig = $this->configuration->tableConfig($tableName);

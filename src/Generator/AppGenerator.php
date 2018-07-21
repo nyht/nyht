@@ -29,7 +29,6 @@ use Nyht\Configuration;
 
 class AppGenerator
 {
-
     private $configuration;
 
     public function __construct()
@@ -67,18 +66,10 @@ class AppGenerator
 
     private function generateRoutes(array $schema)
     {
-        $routes = '<?php'.PHP_EOL.PHP_EOL;
+        $routes = Util::getPhpHeader();
         foreach ($schema as $table => $info) {
             $routes .= 'require __DIR__.\'/controller/'.$info[Schema::SANE_NAME].'.php\';'.PHP_EOL;
         }
         FilesystemUtil::get()->dumpFile(Configuration::ROUTES_FILE, $routes);
-    }
-
-    private function generateControllers() {
-        foreach ($this->tables as $table) {
-            $controller = '<?php'.PHP_EOL.PHP_EOL;
-
-            FilesystemUtil::get()->dumpFile(Configuration::CONTROLLER_FOLDER.'/'.GeneratorUtil::encodeDbOject($table).'.php', $routes);
-        }
     }
 }

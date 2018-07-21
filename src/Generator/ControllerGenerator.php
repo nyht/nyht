@@ -19,14 +19,6 @@
  * along with Nyht.  If not, see <https://www.gnu.org/licenses/>
  */
 
-namespace Nyht;
+namespace Nyht\Generator;
 
-class GeneratorUtil
-{
-    public static function getVersion() : string
-    {
-        return date('YmdHisv');
-    }
-
-    
-}
+require_once __DIR__.'/../../vendor/autoload.php';

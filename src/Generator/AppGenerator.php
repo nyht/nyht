@@ -45,7 +45,7 @@ class AppGenerator
         $schema = new Schema($this->configuration);
         $schema = $schema->extract();
         $this->generateRoutes($schema);
-        // $this->generateControllers();
+        ControllerGenerator::generate($schema);
     }
 
     private function clear()

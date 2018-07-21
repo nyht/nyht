@@ -22,3 +22,31 @@
 namespace Nyht\Generator;
 
 require_once __DIR__.'/../../vendor/autoload.php';
+
+use Nyht\Configuration;
+use Nyht\FilesystemUtil;
+
+final class ControllerGenerator
+{
+    private function __construct()
+    {
+    }
+
+    public static function generate(array $schema)
+    {
+        foreach ($schema as $table => $tableInfo) {
+            $controller = Util::getPhpHeader();
+            $controller .= ControllerGenerator::generateList($tableInfo);
+            $filename = Configuration::CONTROLLER_FOLDER.'/'.$tableInfo[Schema::SANE_NAME].'.php';
+            FilesystemUtil::get()->dumpFile($filename, $controller);
+        }
+    }
+
+    private static function generateList(array $tableInfo)
+    {
+        $php = '$app->get(\'/'.$tableInfo[Schema::SANE_NAME].'/\', function (Request $request, Response $response, array $args) {'.PHP_EOL;
+        
+        $php .= '}'.PHP_EOL;
+        return $php;
+    }
+}

@@ -56,7 +56,6 @@ class Configuration implements ConfigurationInterface
         $cfgContent = FilesystemUtil::get()->requireFile(Configuration::CONFIG_FILE_NAME);
         $processor = new Processor();
         $this->configurationData = $processor->processConfiguration($this, $cfgContent);
-        var_dump($this->configurationData);
     }
 
     /**

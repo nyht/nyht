@@ -28,12 +28,5 @@ class GeneratorUtil
         return date('YmdHisv');
     }
 
-    public static function encodeDbOject(string $name) : string
-    {
-        $name = trim($name);
-        $name = str_replace('-', '_', $name);
-        $name = str_replace(' ', '_', $name);
-        $name = str_replace('.', '_', $name);
-        return $name;
-    }
+    
 }

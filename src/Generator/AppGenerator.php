@@ -29,25 +29,23 @@ use Nyht\Configuration;
 
 class AppGenerator
 {
+
     private $configuration;
-    private $tables;
-    private $schema;
 
     public function __construct()
     {
         $this->configuration = new Configuration();
-        // $conn = DriverManager::getConnection($this->configuration->get(Configuration::CONNECTION_PARAMETERS));
-        // $this->schema = $conn->getSchemaManager();
     }
 
     public function run(bool $runComposer)
     {
         $this->clear();
-        // if ($runComposer) {
-        //     $this->runComposer();
-        // }
-        // $this->getAllTables();
-        // $this->generateRoutes();
+        if ($runComposer) {
+            $this->runComposer();
+        }
+        $schema = new Schema($this->configuration);
+        $schema = $schema->extract();
+        $this->generateRoutes($schema);
         // $this->generateControllers();
     }
 
@@ -67,19 +65,11 @@ class AppGenerator
         }
     }
 
-    private function getAllTables()
-    {
-        $this->tables = array();
-        foreach ($this->schema->listTables() as $table) {
-            $this->tables[] = strtolower($table->getName());
-        }
-    }
-
-    private function generateRoutes()
+    private function generateRoutes(array $schema)
     {
         $routes = '<?php'.PHP_EOL.PHP_EOL;
-        foreach ($this->tables as $table) {
-            $routes .= 'require __DIR__.\'/controller/'.GeneratorUtil::encodeDbOject($table).'.php\';'.PHP_EOL;
+        foreach ($schema as $table => $info) {
+            $routes .= 'require __DIR__.\'/controller/'.$info[Schema::SANE_NAME].'.php\';'.PHP_EOL;
         }
         FilesystemUtil::get()->dumpFile(Configuration::ROUTES_FILE, $routes);
     }

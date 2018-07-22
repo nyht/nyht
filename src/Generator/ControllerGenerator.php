@@ -46,7 +46,7 @@ final class ControllerGenerator
     {
         $php = '$app->get(\'/'.$tableInfo[Schema::SANE_NAME].'/\', function (Request $request, Response $response, array $args) {'.PHP_EOL;
         
-        $php .= '}'.PHP_EOL;
+        $php .= '});'.PHP_EOL;
         return $php;
     }
 }

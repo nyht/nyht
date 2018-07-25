@@ -2,9 +2,9 @@
     "name": "nyht/nyth",
     "description": "Nyht is a CRUD generator",
     "require": {
-        "symfony/console": "4.1.1",
-        "symfony/config": "4.1.1",
-        "symfony/filesystem": "4.1.1",
+        "symfony/console": "4.1.2",
+        "symfony/config": "4.1.2",
+        "symfony/filesystem": "4.1.2",
         "doctrine/dbal": "2.8.0",
         "psr/log": "1.0.2"        
     },

@@ -38,10 +38,12 @@ class Configuration implements ConfigurationInterface
     //Generated structure
     public const CONFIG_FILE_NAME = 'generation.cfg.php';
     public const COMPOSER_FILE_NAME = 'composer.json';
-    public const PUBLIC_FOLDER = 'public_html';
     public const APPLICATION_FOLDER = 'app';
     public const ROUTES_FILE = 'app/routes.php';
     public const CONTROLLER_FOLDER = 'app/controller';
+    public const VIEW_FOLDER = 'app/view';
+    public const VIEW_TEMPLATE_FOLDER = 'custom/view_template';
+    public const PUBLIC_FOLDER = 'public_html';
 
     //Configuration file
     public const ROOT_NODE = 'application';

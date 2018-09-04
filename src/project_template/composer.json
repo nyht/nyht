@@ -4,7 +4,7 @@
     "require": {
         "slim/slim": "3.10.0",
         "slim/php-view": "2.2.0",
-        "doctrine/dbal": "2.7.1",
+        "doctrine/dbal": "2.8.0",
         "monolog/monolog": "1.23.0"
     },
     "autoload": {

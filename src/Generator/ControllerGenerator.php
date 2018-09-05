@@ -36,16 +36,25 @@ final class ControllerGenerator
     {
         foreach ($schema as $table => $tableInfo) {
             $controller = Util::getPhpHeader();
-            $controller .= ControllerGenerator::generateList($tableInfo);
+            $controller .= ControllerGenerator::getControllerHeader();
+            $controller .= ControllerGenerator::generateIndex($tableInfo);
             $filename = Configuration::CONTROLLER_FOLDER.'/'.$tableInfo[Schema::SANE_NAME].'.php';
             FilesystemUtil::get()->dumpFile($filename, $controller);
         }
     }
 
-    private static function generateList(array $tableInfo)
+    private static function getControllerHeader() {
+        $php = 'use \Psr\Http\Message\ServerRequestInterface as Request;'.PHP_EOL;
+        $php .= 'use \Psr\Http\Message\ResponseInterface as Response;'.PHP_EOL.PHP_EOL;
+        $php .= "require '../vendor/autoload.php';".PHP_EOL.PHP_EOL;
+        return $php;
+    }
+
+    private static function generateIndex(array $tableInfo)
     {
         $php = '$app->get(\'/'.$tableInfo[Schema::SANE_NAME].'/\', function (Request $request, Response $response, array $args) {'.PHP_EOL;
-        
+        $php .= '    $response = $this->renderer->render($response, "'.$tableInfo[Schema::SANE_NAME].'.index.php");'.PHP_EOL;
+        $php .= '    return $response;'.PHP_EOL;
         $php .= '});'.PHP_EOL;
         return $php;
     }

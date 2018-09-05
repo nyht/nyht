@@ -3,8 +3,7 @@
 $container = $app->getContainer();
 
 $container['renderer'] = function ($c) {
-    $settings = $c->get('settings')['renderer'];
-    return new Slim\Views\PhpRenderer($settings['template_path']);
+    return new Slim\Views\PhpRenderer(__DIR__.'/view/');
 };
 
 $container['logger'] = function ($c) {

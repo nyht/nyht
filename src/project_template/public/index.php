@@ -13,7 +13,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
-$settings = require __DIR__ . '/../app/settings.php';
+$settings = require __DIR__ . '/../runtime.cfg.php';
 
 $app = new \Slim\App($settings);
 

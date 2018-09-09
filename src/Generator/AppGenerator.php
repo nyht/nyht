@@ -65,7 +65,7 @@ class AppGenerator
         }
     }
 
-    private function generateRoutes(array $schema)
+    private function generateRoutes(array &$schema)
     {
         $routes = Util::getPhpHeader();
         foreach ($schema as $table => $info) {

@@ -34,7 +34,9 @@ final class ControllerGenerator
 
     public static function generate(array $schema)
     {
-        foreach ($schema as $table => $tableInfo) {
+        $keys = array_keys($schema);
+        foreach ($keys as $table) {
+            $tableInfo = $schema[$table];
             $controller = Util::getPhpHeader();
             $controller .= ControllerGenerator::getControllerHeader();
             $controller .= ControllerGenerator::generateIndex($tableInfo);

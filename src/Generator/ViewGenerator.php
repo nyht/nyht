@@ -40,7 +40,9 @@ final class ViewGenerator
 
     private static function generateIndex(array $schema)
     {
-        foreach ($schema as $table => $tableInfo) {
+        $keys = array_keys($schema);
+        foreach ($keys as $table) {
+            $tableInfo = $schema[$table];
             ob_start();
             include FilesystemUtil::get()->root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/index.view.php';
             $content = ob_get_contents();

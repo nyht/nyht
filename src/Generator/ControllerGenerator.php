@@ -45,7 +45,8 @@ final class ControllerGenerator
         }
     }
 
-    private static function getControllerHeader() {
+    private static function getControllerHeader()
+    {
         $php = 'use \Psr\Http\Message\ServerRequestInterface as Request;'.PHP_EOL;
         $php .= 'use \Psr\Http\Message\ResponseInterface as Response;'.PHP_EOL.PHP_EOL;
         $php .= "require '../vendor/autoload.php';".PHP_EOL.PHP_EOL;

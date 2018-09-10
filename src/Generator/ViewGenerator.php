@@ -24,7 +24,6 @@ namespace Nyht\Generator;
 use Nyht\Configuration;
 use Nyht\FilesystemUtil;
 
-
 require_once __DIR__.'/../../vendor/autoload.php';
 
 final class ViewGenerator

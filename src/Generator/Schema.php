@@ -26,6 +26,8 @@ use Nyht\Configuration;
 
 class Schema
 {
+    public const COLUMNS = 'columns';
+    public const METADATA = 'metadata';
     public const SANE_NAME = 'sane_name';
 
     private $configuration;
@@ -46,18 +48,29 @@ class Schema
 
     public function extract() : array
     {
-        $this->getTables();
+        $this->extractTables();
+        foreach ($this->schema as $table => $tableInfo) {
+            $this->extractColumns($table);
+        }
 
         return $this->schema;
     }
 
-    private function getTables()
+    private function extractTables()
     {
         foreach ($this->schemaManager->listTables() as $table) {
             $tableName = $table->getName();
             $tableConfig = $this->configuration->tableConfig($tableName);
             $tableSaneName = ($tableConfig && isset($tableConfig[Schema::SANE_NAME])) ? $tableConfig[Schema::SANE_NAME] : $this->saneName($tableName);
             $this->schema[$tableName] = array(Schema::SANE_NAME => $tableSaneName);
+        }
+    }
+
+    private function extractColumns(string $table)
+    {
+        foreach ($this->schemaManager->listTableColumns($table) as $column) {
+            $this->schema[$table][Schema::COLUMNS][$column->getName()][Schema::METADATA] = $column;
+            $this->schema[$table][Schema::COLUMNS][$column->getName()][Schema::SANE_NAME] = $this->saneName($column->getName());
         }
     }
 

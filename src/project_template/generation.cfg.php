@@ -2,7 +2,7 @@
 
 return [
     "application" => [
-        "connection_parameters" => [
+        "database_connection" => [
             "driver" => "driver",
             "host" => "localhost",
             "dbname" => "dbname",

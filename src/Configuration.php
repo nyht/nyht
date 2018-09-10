@@ -47,7 +47,7 @@ class Configuration implements ConfigurationInterface
 
     //Configuration file
     public const ROOT_NODE = 'application';
-    public const CONNECTION_PARAMETERS = 'connection_parameters';
+    public const CONNECTION_PARAMETERS = 'database_connection';
     public const COMPOSER_PATH = 'composer_path';
     public const SCHEMA_NODE = 'schema';
 

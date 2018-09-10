@@ -13,3 +13,8 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
 };
+
+$container['db'] = function ($c) {
+    $settings = $c->get('settings')['database_connection'];
+    return DriverManager::getConnection($settings);
+};

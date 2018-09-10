@@ -13,9 +13,11 @@ require __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
-$settings = require __DIR__ . '/../runtime.cfg.php';
+$runtimecfg = require __DIR__ . '/../runtime.cfg.php';
+$generationcfg = require __DIR__ . '/../generation.cfg.php';
+$runtimecfg['settings']['database_connection'] = $generationcfg['application']['database_connection'];
 
-$app = new \Slim\App($settings);
+$app = new \Slim\App($runtimecfg);
 
 require __DIR__ . '/../app/dependencies.php';
 require __DIR__ . '/../app/middleware.php';

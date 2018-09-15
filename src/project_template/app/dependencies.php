@@ -16,5 +16,5 @@ $container['logger'] = function ($c) {
 
 $container['db'] = function ($c) {
     $settings = $c->get('settings')['database_connection'];
-    return DriverManager::getConnection($settings);
+    return Doctrine\DBAL\DriverManager::getConnection($settings);
 };

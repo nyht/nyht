@@ -68,9 +68,10 @@ class AppGenerator
     private function generateRoutes(array &$schema)
     {
         $routes = Util::getPhpHeader();
+        $routes .= 'require __DIR__.\'/controller/'.Configuration::BASE_CONTROLLER_FILE_NAME.'\';'.PHP_EOL;
         foreach ($schema as $table => $info) {
             $routes .= 'require __DIR__.\'/controller/'.$info[Schema::SANE_NAME].'.php\';'.PHP_EOL;
         }
-        FilesystemUtil::get()->dumpFile(Configuration::ROUTES_FILE, $routes);
+        FilesystemUtil::get()->dumpFile(Configuration::ROUTES_FILE_NAME, $routes);
     }
 }

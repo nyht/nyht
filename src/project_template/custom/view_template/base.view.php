@@ -15,6 +15,7 @@
         </div>
         <div class="col-md-9">
             <?= $content ?>
+        
         </div>
     </div>
 </div>

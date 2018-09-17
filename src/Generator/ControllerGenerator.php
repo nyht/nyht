@@ -53,7 +53,7 @@ final class ControllerGenerator
         foreach ($keys as $table) {
             $tableInfo = $schema[$table];
             $controller .= '$tablesInfo[\''.$table.'\'][\'cols\'][\'all\'] = ';
-            $controller .= var_export(array_keys($tableInfo[Schema::COLUMNS]) , true).';'.PHP_EOL;
+            $controller .= var_export(array_keys($tableInfo[Schema::COLUMNS]), true).';'.PHP_EOL;
         }
         $filename = Configuration::CONTROLLER_FOLDER.'/'.Configuration::BASE_CONTROLLER_FILE_NAME;
         FilesystemUtil::get()->dumpFile($filename, $controller);

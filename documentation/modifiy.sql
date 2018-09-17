@@ -71,3 +71,55 @@ ALTER TABLE person.stateprovince ALTER COLUMN name nvarchar(50) NOT NULL;
 ALTER TABLE person.stateprovince DROP CONSTRAINT DF_StateProvince_rowguid;
 DROP INDEX AK_StateProvince_rowguid ON person.stateprovince;
 ALTER TABLE person.stateprovince DROP COLUMN rowguid;
+
+ALTER TABLE production.culture ALTER COLUMN name nvarchar(50) NOT NULL;
+
+ALTER TABLE production.location ALTER COLUMN name nvarchar(50) NOT NULL;
+
+ALTER TABLE production.product ALTER COLUMN name nvarchar(50) NOT NULL;
+ALTER TABLE production.product ALTER COLUMN makeflag bit NOT NULL;
+ALTER TABLE production.product DROP CONSTRAINT DF_Product_rowguid;
+DROP INDEX AK_Product_rowguid ON production.product;
+ALTER TABLE production.product DROP COLUMN rowguid;
+
+ALTER TABLE production.productcategory ALTER COLUMN name nvarchar(50) NOT NULL;
+ALTER TABLE production.productcategory DROP CONSTRAINT DF_ProductCategory_rowguid;
+DROP INDEX AK_ProductCategory_rowguid ON production.productcategory;
+ALTER TABLE production.productcategory DROP COLUMN rowguid;
+
+ALTER TABLE production.productdescription DROP CONSTRAINT DF_ProductDescription_rowguid;
+DROP INDEX AK_ProductDescription_rowguid ON production.productdescription;
+ALTER TABLE production.productdescription DROP COLUMN rowguid;
+
+ALTER TABLE production.productdescription DROP CONSTRAINT DF_ProductDescription_rowguid;
+DROP INDEX AK_ProductDescription_rowguid ON production.productdescription;
+ALTER TABLE production.productdescription DROP COLUMN rowguid;
+
+ALTER TABLE production.productinventory DROP CONSTRAINT DF_ProductInventory_rowguid;
+ALTER TABLE production.productinventory DROP COLUMN rowguid;
+
+ALTER TABLE production.productmodel ALTER COLUMN name nvarchar(50) NOT NULL;
+ALTER TABLE production.productmodel DROP CONSTRAINT DF_ProductModel_rowguid;
+DROP INDEX AK_ProductModel_rowguid ON production.productmodel;
+ALTER TABLE production.productmodel DROP COLUMN rowguid;
+
+ALTER TABLE production.productphoto DROP COLUMN thumbnailphoto;
+ALTER TABLE production.productphoto DROP COLUMN largephotofilename;
+ALTER TABLE production.productphoto DROP COLUMN largephoto;
+
+ALTER TABLE production.productproductphoto ALTER COLUMN [primary] bit NOT NULL;
+
+ALTER TABLE production.productreview ALTER COLUMN reviewername nvarchar(50) NOT NULL;
+
+ALTER TABLE production.productsubcategory ALTER COLUMN name nvarchar(50) NOT NULL;
+ALTER TABLE production.productsubcategory DROP CONSTRAINT DF_ProductSubcategory_rowguid;
+DROP INDEX AK_ProductSubcategory_rowguid ON production.productsubcategory;
+ALTER TABLE production.productsubcategory DROP COLUMN rowguid;
+
+ALTER TABLE production.scrapreason ALTER COLUMN name nvarchar(50) NOT NULL;
+
+ALTER TABLE production.unitmeasure ALTER COLUMN name nvarchar(50) NOT NULL;
+
+ALTER TABLE production.workorder DROP COLUMN stockedqty;
+
+ALTER TABLE production.purchaseorderheader DROP COLUMN totaldue;

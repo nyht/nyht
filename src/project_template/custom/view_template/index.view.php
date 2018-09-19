@@ -1,5 +1,6 @@
 <h2><?= $table ?></h2>
 <table class="table table-sm table-hover">
+<thead>
 <tr>
 <?php
 echo '<?php'.PHP_EOL;
@@ -13,6 +14,8 @@ EOF;
 echo '?>'.PHP_EOL;
 ?>
 </tr>
+</thead>
+<tbody>
 <tr>
 <?php
 echo '<?php'.PHP_EOL;
@@ -28,4 +31,5 @@ EOF;
 echo '?>'.PHP_EOL;
 ?>
 </tr>
+</tbody>
 </table>

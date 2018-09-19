@@ -23,6 +23,10 @@ DROP VIEW Sales.vStoreWithAddresses;
 DROP VIEW Sales.vStoreWithContacts;
 DROP VIEW Sales.vStoreWithDemographics;
 
+ALTER TABLE sales.customer DROP CONSTRAINT DF_Customer_rowguid;
+DROP INDEX AK_Customer_rowguid ON sales.customer;
+ALTER TABLE sales.customer DROP COLUMN rowguid;
+
 ALTER TABLE humanresources.department ALTER COLUMN name nvarchar(50) NOT NULL;
 
 ALTER TABLE humanresources.employee ALTER COLUMN SalariedFlag bit NOT NULL;
@@ -61,6 +65,14 @@ ALTER TABLE person.person ALTER COLUMN lastname nvarchar(50) NOT NULL;
 ALTER TABLE person.person DROP CONSTRAINT DF_Person_rowguid;
 DROP INDEX AK_Person_rowguid ON person.person;
 ALTER TABLE person.person DROP COLUMN rowguid;
+
+ALTER TABLE person.addresstype DROP CONSTRAINT DF_AddressType_rowguid;
+DROP INDEX AK_AddressType_rowguid ON person.addresstype;
+ALTER TABLE person.addresstype DROP COLUMN rowguid;
+
+ALTER TABLE person.businessentitycontact DROP CONSTRAINT DF_BusinessEntityContact_rowguid;
+DROP INDEX AK_BusinessEntityContact_rowguid ON person.businessentitycontact;
+ALTER TABLE person.businessentitycontact DROP COLUMN rowguid;
 
 ALTER TABLE person.personphone ALTER COLUMN phonenumber nvarchar(25) NOT NULL;
 

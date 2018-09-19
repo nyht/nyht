@@ -20,7 +20,7 @@ echo <<<'EOF'
 foreach ($data as $row) {
     echo '<tr>'.PHP_EOL;
     foreach ($cols as $col) {
-       echo "<td>{$row[$col]}</td>".PHP_EOL;
+        echo '<td>'.___($row[$col]).'</td>'.PHP_EOL;
     }
     echo '</tr>'.PHP_EOL;
 }

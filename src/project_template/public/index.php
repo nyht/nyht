@@ -19,6 +19,7 @@ $runtimecfg['settings']['database_connection'] = $generationcfg['application']['
 
 $app = new \Slim\App($runtimecfg);
 
+require __DIR__ . '/../app/viewfunctions.php';
 require __DIR__ . '/../app/dependencies.php';
 require __DIR__ . '/../app/middleware.php';
 require __DIR__ . '/../app/routes.php';

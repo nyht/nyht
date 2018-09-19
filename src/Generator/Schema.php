@@ -53,6 +53,8 @@ class Schema
             $this->extractColumns($table);
         }
 
+        ksort($this->schema);
+        
         return $this->schema;
     }
 

@@ -11,10 +11,10 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 nyht-nav-panel">
             <?php include 'base_nav.view.php' ?>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-10 nyht-content-panel">
             <?= $content ?>
         
         </div>

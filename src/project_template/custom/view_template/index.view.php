@@ -1,5 +1,5 @@
 <h2><?= $table ?></h2>
-<table class="table">
+<table class="table table-sm table-hover">
 <tr>
 <?php
 echo '<?php'.PHP_EOL;

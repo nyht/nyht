@@ -135,3 +135,5 @@ ALTER TABLE production.unitmeasure ALTER COLUMN name nvarchar(50) NOT NULL;
 ALTER TABLE production.workorder DROP COLUMN stockedqty;
 
 ALTER TABLE production.purchaseorderheader DROP COLUMN totaldue;
+
+DROP TABLE person.password;

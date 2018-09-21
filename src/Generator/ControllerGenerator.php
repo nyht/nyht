@@ -61,8 +61,8 @@ final class ControllerGenerator
 
     private static function getControllerHeader(&$tableInfo)
     {
-        $php = 'use \Psr\Http\Message\ServerRequestInterface as Request;'.PHP_EOL;
-        $php .= 'use \Psr\Http\Message\ResponseInterface as Response;'.PHP_EOL.PHP_EOL;
+        $php = 'use \Psr\Http\Message\ServerRequestInterface;'.PHP_EOL;
+        $php .= 'use \Psr\Http\Message\ResponseInterface;'.PHP_EOL.PHP_EOL;
         $php .= 'use \Doctrine\DBAL\Query\QueryBuilder;'.PHP_EOL;
         $php .= 'use \Doctrine\DBAL\FetchMode;'.PHP_EOL.PHP_EOL;
         $php .= "require '../vendor/autoload.php';".PHP_EOL.PHP_EOL;
@@ -72,7 +72,7 @@ final class ControllerGenerator
 
     private static function generateIndex(string $table, array &$tableInfo)
     {
-        $php = '$app->get(\'/'.$tableInfo[Schema::SANE_NAME].'/\', function (Request $request, Response $response, array $args) {'.PHP_EOL;
+        $php = '$app->get(\'/'.$tableInfo[Schema::SANE_NAME].'/\', function (ServerRequestInterface $request, ResponseInterface $response, array $args) {'.PHP_EOL;
         $php .= '    global $tablesInfo;'.PHP_EOL;
         $php .= '    $rowCount = '.$tableInfo[Schema::SANE_NAME].'_dao_count($this->db);'.PHP_EOL;
         $php .= '    $data = '.$tableInfo[Schema::SANE_NAME].'_dao_list($this->db, $tablesInfo[\''.$table.'\'][\'cols\'][\'all\']);'.PHP_EOL;

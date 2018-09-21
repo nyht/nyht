@@ -27,7 +27,7 @@ use Doctrine\DBAL\DriverManager;
 use Nyht\FilesystemUtil;
 use Nyht\Configuration;
 
-class AppGenerator
+final class AppGenerator
 {
     private $configuration;
 

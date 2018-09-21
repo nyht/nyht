@@ -45,6 +45,7 @@ final class AppGenerator
         $schema = new Schema($this->configuration);
         $schema = $schema->extract();
         $this->generateRoutes($schema);
+        DaoGenerator::generate($schema);
         ControllerGenerator::generate($schema);
         ViewGenerator::generate($schema);
     }

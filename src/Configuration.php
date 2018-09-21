@@ -43,6 +43,7 @@ class Configuration implements ConfigurationInterface
     public const CONTROLLER_FOLDER = 'app/controller';
     public const BASE_CONTROLLER_FILE_NAME = 'nyhtbasecontroller.php';
     public const VIEW_FOLDER = 'app/view';
+    public const DAO_FOLDER = 'app/dao';
     public const VIEW_TEMPLATE_FOLDER = 'custom/view_template';
     public const PUBLIC_FOLDER = 'public_html';
 

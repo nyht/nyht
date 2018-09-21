@@ -59,25 +59,23 @@ final class ControllerGenerator
         FilesystemUtil::get()->dumpFile($filename, $controller);
     }
 
-    private static function getControllerHeader($tableInfo)
+    private static function getControllerHeader(&$tableInfo)
     {
         $php = 'use \Psr\Http\Message\ServerRequestInterface as Request;'.PHP_EOL;
         $php .= 'use \Psr\Http\Message\ResponseInterface as Response;'.PHP_EOL.PHP_EOL;
         $php .= 'use \Doctrine\DBAL\Query\QueryBuilder;'.PHP_EOL;
         $php .= 'use \Doctrine\DBAL\FetchMode;'.PHP_EOL.PHP_EOL;
         $php .= "require '../vendor/autoload.php';".PHP_EOL.PHP_EOL;
+        $php .= "require __DIR__.'/../dao/".$tableInfo[Schema::SANE_NAME].".php';".PHP_EOL.PHP_EOL;
         return $php;
     }
 
-    private static function generateIndex(string $table, array $tableInfo)
+    private static function generateIndex(string $table, array &$tableInfo)
     {
         $php = '$app->get(\'/'.$tableInfo[Schema::SANE_NAME].'/\', function (Request $request, Response $response, array $args) {'.PHP_EOL;
         $php .= '    global $tablesInfo;'.PHP_EOL;
-        $php .= '    $qb = $this->db->createQueryBuilder();'.PHP_EOL;
-        $php .= '    $qb->select($tablesInfo[\''.$table.'\'][\'cols\'][\'all\']);'.PHP_EOL;
-        $php .= '    $qb->from(\''.$table.'\');'.PHP_EOL;
-        $php .= '    $stmt = $qb->execute();'.PHP_EOL;
-        $php .= '    $this->renderer->addAttribute(\'data\', $stmt->fetchAll(FetchMode::ASSOCIATIVE));'.PHP_EOL;
+        $php .= '    $data = '.$tableInfo[Schema::SANE_NAME].'_dao_list($this->db, $tablesInfo[\''.$table.'\'][\'cols\'][\'all\']);'.PHP_EOL;
+        $php .= '    $this->renderer->addAttribute(\'data\', $data);'.PHP_EOL;
         $php .= '    $response = $this->renderer->render($response, "'.$tableInfo[Schema::SANE_NAME].'.index.php");'.PHP_EOL;
         $php .= '    return $response;'.PHP_EOL;
         $php .= '});'.PHP_EOL;

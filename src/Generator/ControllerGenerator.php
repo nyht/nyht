@@ -74,6 +74,7 @@ final class ControllerGenerator
     {
         $php = '$app->get(\'/'.$tableInfo[Schema::SANE_NAME].'/\', function (Request $request, Response $response, array $args) {'.PHP_EOL;
         $php .= '    global $tablesInfo;'.PHP_EOL;
+        $php .= '    $rowCount = '.$tableInfo[Schema::SANE_NAME].'_dao_count($this->db);'.PHP_EOL;
         $php .= '    $data = '.$tableInfo[Schema::SANE_NAME].'_dao_list($this->db, $tablesInfo[\''.$table.'\'][\'cols\'][\'all\']);'.PHP_EOL;
         $php .= '    $this->renderer->addAttribute(\'data\', $data);'.PHP_EOL;
         $php .= '    $response = $this->renderer->render($response, "'.$tableInfo[Schema::SANE_NAME].'.index.php");'.PHP_EOL;

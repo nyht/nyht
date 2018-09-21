@@ -40,18 +40,31 @@ class DaoGenerator
         foreach ($keys as $table) {
             $tableInfo = $schema[$table];
             $dao = Util::getPhpHeader();
-            $dao .= DaoGenerator::getDaoHeader($tableInfo);
+            $dao .= DaoGenerator::getDaoHeader();
+            $dao .= DaoGenerator::generateCount($table, $tableInfo).PHP_EOL;
             $dao .= DaoGenerator::generateList($table, $tableInfo);
             $filename = Configuration::DAO_FOLDER.'/'.$tableInfo[Schema::SANE_NAME].'.php';
             FilesystemUtil::get()->dumpFile($filename, $dao);
         }
     }
 
-    private static function getDaoHeader(&$tableInfo)
+    private static function getDaoHeader()
     {
         $php = 'use \Doctrine\DBAL\Query\QueryBuilder;'.PHP_EOL;
         $php .= 'use \Doctrine\DBAL\FetchMode;'.PHP_EOL.PHP_EOL;
         $php .= "require '../vendor/autoload.php';".PHP_EOL.PHP_EOL;
+        return $php;
+    }
+
+    private static function generateCount(string &$table, array &$tableInfo)
+    {
+        $php = 'function '.$tableInfo[Schema::SANE_NAME].'_dao_count(&$db) {'.PHP_EOL;
+        $php .= '    $qb = $db->createQueryBuilder();'.PHP_EOL;
+        $php .= '    $qb->select(count(\'*\'));'.PHP_EOL;
+        $php .= '    $qb->from(\''.$table.'\');'.PHP_EOL;
+        $php .= '    $stmt = $qb->execute();'.PHP_EOL;
+        $php .= '    return intval($stmt->fetchColumn());'.PHP_EOL;
+        $php .= '}'.PHP_EOL;
         return $php;
     }
 

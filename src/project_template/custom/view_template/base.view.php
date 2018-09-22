@@ -12,6 +12,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2 nyht-nav-panel">
+            <h1 class="display-4 application-title">My Application</h1>
             <?php include 'base_nav.view.php' ?>
         </div>
         <div class="col-md-10 nyht-content-panel">

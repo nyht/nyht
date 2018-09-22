@@ -9,6 +9,13 @@ div.nyht-nav-panel {
     box-shadow: 7px 0px 42px -16px rgba(0,0,0,0.75);
 }
 
+h1.application-title {
+    font-weight: bold;
+    font-size: 1.3vw;
+    color: #212529;
+    margin-top: 2vh;
+}
+
 div.nyht-content-panel {
     padding-left: 3em;
     padding-right: 3em;

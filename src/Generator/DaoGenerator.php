@@ -28,7 +28,6 @@ use Nyht\FilesystemUtil;
 
 class DaoGenerator
 {
-
     private function __construct()
     {
     }
@@ -79,6 +78,4 @@ class DaoGenerator
         $php .= '}'.PHP_EOL;
         return $php;
     }
-
-
 }

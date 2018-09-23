@@ -59,7 +59,7 @@ class DaoGenerator
     {
         $php = 'function '.$tableInfo[Schema::SANE_NAME].'_dao_count(&$db) {'.PHP_EOL;
         $php .= '    $qb = $db->createQueryBuilder();'.PHP_EOL;
-        $php .= '    $qb->select(count(\'*\'));'.PHP_EOL;
+        $php .= '    $qb->select(\'count(*)\');'.PHP_EOL;
         $php .= '    $qb->from(\''.$table.'\');'.PHP_EOL;
         $php .= '    $stmt = $qb->execute();'.PHP_EOL;
         $php .= '    return intval($stmt->fetchColumn());'.PHP_EOL;
@@ -69,10 +69,12 @@ class DaoGenerator
 
     private static function generateList(string &$table, array &$tableInfo)
     {
-        $php = 'function '.$tableInfo[Schema::SANE_NAME].'_dao_list(&$db, array $columns, $start = -1, $end = -1) {'.PHP_EOL;
+        $php = 'function '.$tableInfo[Schema::SANE_NAME].'_dao_list(&$db, array $columns, $offset = -1, $limit = -1) {'.PHP_EOL;
         $php .= '    $qb = $db->createQueryBuilder();'.PHP_EOL;
         $php .= '    $qb->select($columns);'.PHP_EOL;
         $php .= '    $qb->from(\''.$table.'\');'.PHP_EOL;
+        $php .= '    if ($offset >= 0) $qb->setFirstResult($offset);'.PHP_EOL;
+        $php .= '    if ($limit >= 0) $qb->setMaxResults($limit);'.PHP_EOL;
         $php .= '    $stmt = $qb->execute();'.PHP_EOL;
         $php .= '    return $stmt->fetchAll(FetchMode::ASSOCIATIVE);'.PHP_EOL;
         $php .= '}'.PHP_EOL;

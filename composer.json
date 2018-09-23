@@ -10,6 +10,7 @@
     },
 
     "autoload": {
-        "psr-4": {"Nyht\\": "src/"}
+        "psr-4": {"Nyht\\": "src/"},
+        "files": ["src/project_template/app/constants.php"]
     }
 }

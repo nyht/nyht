@@ -28,12 +28,11 @@ use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Nyht\Generator\Schema;
 
-class Configuration implements ConfigurationInterface
+final class Configuration
 {
 
     //Generator structure
     public const PROJECT_TEMPLATE_FOLDER = 'project_template';
-
 
     //Generated structure
     public const CONFIG_FILE_NAME = 'generation.cfg.php';
@@ -51,17 +50,46 @@ class Configuration implements ConfigurationInterface
     public const ROOT_NODE = 'application';
     public const CONNECTION_PARAMETERS = 'database_connection';
     public const COMPOSER_PATH = 'composer_path';
+    public const PAGE_SIZE = 'page_size';
+    public const PAGE_SIZE_DEFAULT_VALUE = 100;
     public const SCHEMA_NODE = 'schema';
 
-    private $configurationData;
+    private static $configurationData = null;
 
-    public function __construct()
+    private function __construct()
+    {
+    }
+
+    private static function load()
     {
         $cfgContent = FilesystemUtil::get()->requireFile(Configuration::CONFIG_FILE_NAME);
         $processor = new Processor();
-        $this->configurationData = $processor->processConfiguration($this, $cfgContent);
+        self::$configurationData = $processor->processConfiguration(new \Nyht\GenerationConfigurationInterface(), $cfgContent);
     }
 
+    public static function get(string $configurationKey)
+    {
+        if (self::$configurationData == null) {
+            self::load();
+        }
+        return self::$configurationData[$configurationKey] ?? null;
+    }
+
+    public static function tableConfig(string $tableName)
+    {
+        if (self::$configurationData == null) {
+            self::load();
+        }
+        $config = null;
+        if (isset(self::$configurationData[Configuration::SCHEMA_NODE])) {
+            $config = self::$configurationData[Configuration::SCHEMA_NODE][$tableName] ?? null;
+        }
+        return $config;
+    }
+}
+
+final class GenerationConfigurationInterface implements ConfigurationInterface
+{
     /**
      * https://www.doctrine-project.org/projects/doctrine-dbal/en/2.7/reference/configuration.html
      */
@@ -83,6 +111,9 @@ class Configuration implements ConfigurationInterface
             ->scalarNode(Configuration::COMPOSER_PATH)
                 ->defaultValue('composer.phar')
             ->end()
+            ->integerNode(Configuration::PAGE_SIZE)
+                ->defaultValue(Configuration::PAGE_SIZE_DEFAULT_VALUE)
+            ->end()
             ->arrayNode(Configuration::SCHEMA_NODE)
                 ->useAttributeAsKey('name')
                 ->arrayPrototype()
@@ -101,19 +132,5 @@ class Configuration implements ConfigurationInterface
         $rootNode->end();
         
         return $treeBuilder;
-    }
-
-    public function get(string $configurationKey)
-    {
-        return $this->configurationData[$configurationKey] ?? null;
-    }
-
-    public function tableConfig(string $tableName)
-    {
-        $config = null;
-        if (isset($this->configurationData[Configuration::SCHEMA_NODE])) {
-            $config = $this->configurationData[Configuration::SCHEMA_NODE][$tableName] ?? null;
-        }
-        return $config;
     }
 }

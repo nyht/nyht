@@ -14,7 +14,7 @@ function ___($value, $outputType = OUTPUT_HTML)
     if ($outputType == OUTPUT_HTML) {
         return $escaper->escapeHtml($value);
     } elseif ($outputType == OUTPUT_HTML_ATTR) {
-        return $escaper->escapeHtmlAtrr($value);
+        return $escaper->escapeHtmlAttr($value);
     } elseif ($outputType == OUTPUT_JS) {
         return $escaper->escapeJs($value);
     } elseif ($outputType == OUTPUT_CSS) {
@@ -23,4 +23,24 @@ function ___($value, $outputType = OUTPUT_HTML)
         return $escaper->escapeUrl($value);
     }
     return '';
+}
+
+function sanitizedGetParameters($outputType = OUTPUT_HTML_ATTR)
+{
+    $sani = array();
+    foreach ($_GET as $k => $v) {
+        $sani[___($k, $outputType)] = ___($v, $outputType);
+    }
+    return $sani;
+}
+
+function getPagedUrls($numberPages) {
+    $urls = array();
+    $get = sanitizedGetParameters();
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    for ($i=0; $i < $numberPages; $i++) {
+        $get[CONTROLLER_PAGE_PARAMETER] = $i;
+        $urls[$i] = $path.'?'.http_build_query($get);
+    }
+    return $urls;
 }

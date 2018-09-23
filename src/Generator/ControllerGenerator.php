@@ -28,6 +28,7 @@ use Nyht\FilesystemUtil;
 
 final class ControllerGenerator
 {
+
     private function __construct()
     {
     }
@@ -72,12 +73,29 @@ final class ControllerGenerator
 
     private static function generateIndex(string $table, array &$tableInfo)
     {
-        $php = '$app->get(\'/'.$tableInfo[Schema::SANE_NAME].'/\', function (ServerRequestInterface $request, ResponseInterface $response, array $args) {'.PHP_EOL;
+        $saneName = $tableInfo[Schema::SANE_NAME];
+        $pageSize = Configuration::get(Configuration::PAGE_SIZE);
+        $php = '$app->get(\'/'.$saneName.'/\', function (ServerRequestInterface $request, ResponseInterface $response, array $args) {'.PHP_EOL;
         $php .= '    global $tablesInfo;'.PHP_EOL;
-        $php .= '    $rowCount = '.$tableInfo[Schema::SANE_NAME].'_dao_count($this->db);'.PHP_EOL;
-        $php .= '    $data = '.$tableInfo[Schema::SANE_NAME].'_dao_list($this->db, $tablesInfo[\''.$table.'\'][\'cols\'][\'all\']);'.PHP_EOL;
+        $php .= '    $rowCount = '.$saneName.'_dao_count($this->db);'.PHP_EOL;
+        $php .= '    $data = array();'.PHP_EOL;
+        $php .= '    $offset = -1;'.PHP_EOL;
+        $php .= '    $limit = -1;'.PHP_EOL;
+        $php .= '    $page = 0;'.PHP_EOL;
+        $php .= '    if ($rowCount > 0)'.PHP_EOL;
+        $php .= '    {'.PHP_EOL;
+        $php .= '        if ('.$pageSize.' > 0 && $rowCount > '.$pageSize.')'.PHP_EOL;
+        $php .= '        {'.PHP_EOL;
+        $php .= '            $page = $_REQUEST[\''.CONTROLLER_PAGE_PARAMETER.'\'] ?? 0;'.PHP_EOL;
+        $php .= '            $offset = $page * '.$pageSize.';'.PHP_EOL;
+        $php .= '            $limit = '.$pageSize.';'.PHP_EOL;
+        $php .= '        }'.PHP_EOL;
+        $php .= '        $data = '.$tableInfo[Schema::SANE_NAME].'_dao_list($this->db, $tablesInfo[\''.$table.'\'][\'cols\'][\'all\'], $offset, $limit);'.PHP_EOL;
+        $php .= '    }'.PHP_EOL;
         $php .= '    $this->renderer->addAttribute(\'data\', $data);'.PHP_EOL;
-        $php .= '    $response = $this->renderer->render($response, "'.$tableInfo[Schema::SANE_NAME].'.index.php");'.PHP_EOL;
+        $php .= '    $this->renderer->addAttribute(\'rowCount\', $rowCount);'.PHP_EOL;
+        $php .= '    $this->renderer->addAttribute(\'currentPage\', $page);'.PHP_EOL;
+        $php .= '    $response = $this->renderer->render($response, "'.$saneName.'.index.php");'.PHP_EOL;
         $php .= '    return $response;'.PHP_EOL;
         $php .= '});'.PHP_EOL;
         return $php;

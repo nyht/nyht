@@ -29,11 +29,9 @@ use Nyht\Configuration;
 
 final class AppGenerator
 {
-    private $configuration;
 
     public function __construct()
     {
-        $this->configuration = new Configuration();
     }
 
     public function run(bool $runComposer)
@@ -42,7 +40,7 @@ final class AppGenerator
         if ($runComposer) {
             $this->runComposer();
         }
-        $schema = new Schema($this->configuration);
+        $schema = new Schema();
         $schema = $schema->extract();
         $this->generateRoutes($schema);
         DaoGenerator::generate($schema);
@@ -60,7 +58,7 @@ final class AppGenerator
     {
         $out = '';
         $outcode = -1;
-        exec('php '.$this->configuration->get(Configuration::COMPOSER_PATH).' --working-dir="'.FilesystemUtil::get()->root().'" update', $out, $outcode);
+        exec('php '.Configuration::get(Configuration::COMPOSER_PATH).' --working-dir="'.FilesystemUtil::get()->root().'" update', $out, $outcode);
         if ($outcode != 0) {
             throw new \Exception("Composer ended with error code {$outcode}");
         }

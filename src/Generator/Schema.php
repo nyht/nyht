@@ -30,14 +30,12 @@ class Schema
     public const METADATA = 'metadata';
     public const SANE_NAME = 'sane_name';
 
-    private $configuration;
     private $schemaManager;
     private $schema = array();
 
-    public function __construct(Configuration $config)
+    public function __construct()
     {
-        $this->configuration = $config;
-        $conn = DriverManager::getConnection($config->get(Configuration::CONNECTION_PARAMETERS));
+        $conn = DriverManager::getConnection(Configuration::get(Configuration::CONNECTION_PARAMETERS));
         $this->schemaManager = $conn->getSchemaManager();
     }
 
@@ -62,7 +60,7 @@ class Schema
     {
         foreach ($this->schemaManager->listTables() as $table) {
             $tableName = $table->getName();
-            $tableConfig = $this->configuration->tableConfig($tableName);
+            $tableConfig = Configuration::tableConfig($tableName);
             $tableSaneName = ($tableConfig && isset($tableConfig[Schema::SANE_NAME])) ? $tableConfig[Schema::SANE_NAME] : $this->saneName($tableName);
             $this->schema[$tableName] = array(Schema::SANE_NAME => $tableSaneName);
         }

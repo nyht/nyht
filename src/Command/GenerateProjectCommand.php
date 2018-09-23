@@ -38,8 +38,7 @@ class GenerateProjectCommand extends Command
     {
         $this->setName("project:generate")
                 ->setDescription("Generates the application")
-                ->addArgument('path', InputArgument::REQUIRED, "Project's path")
-                ->addOption('nocomposer', null, InputOption::VALUE_NONE, 'Do not run composer');
+                ->addArgument('path', InputArgument::REQUIRED, "Project's path");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -47,11 +46,10 @@ class GenerateProjectCommand extends Command
         Logger::out($output); //initialise logger
         Logger::out()->notice('Generating project');
         $path = $input->getArgument('path');
-        $runComposer = $input->getOption('nocomposer') === true ? false : true;
         FilesystemUtil::get($path); //initialise filesystem util
 
         $appGenerator = new AppGenerator();
-        $appGenerator->run($runComposer);
+        $appGenerator->run();
 
         Logger::out()->notice('Finished');
     }

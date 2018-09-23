@@ -34,12 +34,9 @@ final class AppGenerator
     {
     }
 
-    public function run(bool $runComposer)
+    public function run()
     {
         $this->clear();
-        if ($runComposer) {
-            $this->runComposer();
-        }
         $schema = new Schema();
         $schema = $schema->extract();
         $this->generateRoutes($schema);
@@ -52,16 +49,6 @@ final class AppGenerator
     {
         FilesystemUtil::get()->remove(Configuration::APPLICATION_FOLDER);
         FilesystemUtil::get()->mirror(__DIR__.'/../project_template/app', Configuration::APPLICATION_FOLDER);
-    }
-
-    private function runComposer()
-    {
-        $out = '';
-        $outcode = -1;
-        exec('php '.Configuration::get(Configuration::COMPOSER_PATH).' --working-dir="'.FilesystemUtil::get()->root().'" update', $out, $outcode);
-        if ($outcode != 0) {
-            throw new \Exception("Composer ended with error code {$outcode}");
-        }
     }
 
     private function generateRoutes(array &$schema)

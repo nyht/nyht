@@ -34,7 +34,8 @@ function sanitizedGetParameters($outputType = OUTPUT_HTML_ATTR)
     return $sani;
 }
 
-function getPagedUrls($numberPages) {
+function getPagedUrls($numberPages)
+{
     $urls = array();
     $get = sanitizedGetParameters();
     $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

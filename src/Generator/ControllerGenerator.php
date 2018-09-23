@@ -28,7 +28,6 @@ use Nyht\FilesystemUtil;
 
 final class ControllerGenerator
 {
-
     private function __construct()
     {
     }

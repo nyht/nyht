@@ -29,7 +29,6 @@ use Nyht\Configuration;
 
 final class AppGenerator
 {
-
     public function __construct()
     {
     }

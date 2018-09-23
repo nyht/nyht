@@ -9,6 +9,6 @@ include 'table.part.php';
 
 include 'pagination.part.php';
 
-echo '<?php'.PHP_EOL;
-echo '}'.PHP_EOL;
-echo '?>'.PHP_EOL;
+echo '<p class="small">Total Records: <?= $rowCount ?></p>';
+
+echo '<?php } ?>'.PHP_EOL;

@@ -137,3 +137,63 @@ ALTER TABLE production.workorder DROP COLUMN stockedqty;
 ALTER TABLE production.purchaseorderheader DROP COLUMN totaldue;
 
 DROP TABLE person.password;
+
+ALTER TABLE sales.currency ALTER COLUMN name nvarchar(50) NOT NULL;
+
+drop index AK_Customer_AccountNumber on sales.customer;
+alter table sales.customer drop column accountnumber;
+
+drop index AK_Customer_AccountNumber on sales.customer;
+alter table sales.customer drop column accountnumber;
+
+alter table sales.salesorderdetail drop column linetotal;
+
+ALTER TABLE sales.salesorderdetail DROP CONSTRAINT DF_SalesOrderDetail_rowguid;
+DROP INDEX AK_SalesOrderDetail_rowguid ON sales.salesorderdetail;
+ALTER TABLE sales.salesorderdetail DROP COLUMN rowguid;
+
+ALTER TABLE sales.salesorderheader ALTER COLUMN onlineorderflag bit NOT NULL;
+drop index AK_SalesOrderHeader_SalesOrderNumber on sales.salesorderheader;
+alter table sales.salesorderheader drop column salesordernumber;
+alter table sales.salesorderheader drop column totaldue;
+ALTER TABLE sales.salesorderheader DROP CONSTRAINT DF_SalesOrderHeader_rowguid;
+DROP INDEX AK_SalesOrderHeader_rowguid ON sales.salesorderheader;
+ALTER TABLE sales.salesorderheader DROP COLUMN rowguid;
+
+ALTER TABLE sales.salesperson DROP CONSTRAINT DF_SalesPerson_rowguid;
+DROP INDEX AK_SalesPerson_rowguid ON sales.salesperson;
+ALTER TABLE sales.salesperson DROP COLUMN rowguid;
+
+ALTER TABLE sales.salespersonquotahistory DROP CONSTRAINT DF_SalesPersonQuotaHistory_rowguid;
+DROP INDEX AK_SalesPersonQuotaHistory_rowguid ON sales.salespersonquotahistory;
+ALTER TABLE sales.salespersonquotahistory DROP COLUMN rowguid;
+
+ALTER TABLE sales.salesreason ALTER COLUMN name nvarchar(50) NOT NULL;
+ALTER TABLE sales.salesreason ALTER COLUMN reasontype nvarchar(50) NOT NULL;
+
+ALTER TABLE sales.salestaxrate ALTER COLUMN name nvarchar(50) NOT NULL;
+ALTER TABLE sales.salestaxrate DROP CONSTRAINT DF_SalesTaxRate_rowguid;
+DROP INDEX AK_SalesTaxRate_rowguid ON sales.salestaxrate;
+ALTER TABLE sales.salestaxrate DROP COLUMN rowguid;
+
+ALTER TABLE sales.salesterritory ALTER COLUMN name nvarchar(50) NOT NULL;
+ALTER TABLE sales.salesterritory DROP CONSTRAINT DF_SalesTerritory_rowguid;
+DROP INDEX AK_SalesTerritory_rowguid ON sales.salesterritory;
+ALTER TABLE sales.salesterritory DROP COLUMN rowguid;
+
+ALTER TABLE sales.salesterritoryhistory DROP CONSTRAINT DF_SalesTerritoryHistory_rowguid;
+DROP INDEX AK_SalesTerritoryHistory_rowguid ON sales.salesterritoryhistory;
+ALTER TABLE sales.salesterritoryhistory DROP COLUMN rowguid;
+
+ALTER TABLE sales.specialoffer DROP CONSTRAINT DF_SpecialOffer_rowguid;
+DROP INDEX AK_SpecialOffer_rowguid ON sales.specialoffer;
+ALTER TABLE sales.specialoffer DROP COLUMN rowguid;
+
+ALTER TABLE sales.specialofferproduct DROP CONSTRAINT DF_SpecialOfferProduct_rowguid;
+DROP INDEX AK_SpecialOfferProduct_rowguid ON sales.specialofferproduct;
+ALTER TABLE sales.specialofferproduct DROP COLUMN rowguid;
+
+ALTER TABLE sales.store ALTER COLUMN name nvarchar(50) NOT NULL;
+ALTER TABLE sales.store DROP CONSTRAINT DF_Store_rowguid;
+DROP INDEX AK_Store_rowguid ON sales.store;
+ALTER TABLE sales.store DROP COLUMN rowguid;

@@ -42,12 +42,12 @@ class CreateProjectCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        Logger::out($output); //initialise logger
-        Logger::out()->notice('Generating project');
+        Logger::initialize($output);
+        Logger::notice('Generating project');
         $path = $input->getArgument('path');
         FilesystemUtil::initialize($path);
         $this->create();
-        Logger::out()->notice('Finished');
+        Logger::notice('Finished');
     }
 
     private function create()

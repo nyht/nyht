@@ -29,64 +29,59 @@ use Psr\Log\NullLogger;
 
 final class Logger
 {
-    private $logger;
+    private static $logger;
 
     private function __construct(OutputInterface $output = null)
     {
-        $this->logger = ($output !== null) ? new ConsoleLogger($output) : new NullLogger();
     }
 
-    public static function out(OutputInterface $output = null)
+    public static function initialize(OutputInterface $output = null)
     {
-        static $inst = null;
-        if ($inst === null) {
-            $inst = new Logger($output);
-        }
-        return $inst;
+        self::$logger = ($output !== null) ? new ConsoleLogger($output) : new NullLogger();
     }
 
-    public function emergency($message, array $context = array())
+    public static function emergency($message, array $context = array())
     {
-        $this->logger->emergency($message, $context);
+        self::$logger->emergency($message, $context);
     }
 
-    public function alert($message, array $context = array())
+    public static function alert($message, array $context = array())
     {
-        $this->logger->alert($message, $context);
+        self::$logger->alert($message, $context);
     }
 
-    public function critical($message, array $context = array())
+    public static function critical($message, array $context = array())
     {
-        $this->logger->critical($message, $context);
+        self::$logger->critical($message, $context);
     }
 
-    public function error($message, array $context = array())
+    public static function error($message, array $context = array())
     {
-        $this->logger->error($message, $context);
+        self::$logger->error($message, $context);
     }
 
-    public function warning($message, array $context = array())
+    public static function warning($message, array $context = array())
     {
-        $this->logger->warning($message, $context);
+        self::$logger->warning($message, $context);
     }
 
-    public function notice($message, array $context = array())
+    public static function notice($message, array $context = array())
     {
-        $this->logger->notice($message, $context);
+        self::$logger->notice($message, $context);
     }
 
-    public function info($message, array $context = array())
+    public static function info($message, array $context = array())
     {
-        $this->logger->info($message, $context);
+        self::$logger->info($message, $context);
     }
 
-    public function debug($message, array $context = array())
+    public static function debug($message, array $context = array())
     {
-        $this->logger->debug($message, $context);
+        self::$logger->debug($message, $context);
     }
 
-    public function log($level, $message, array $context = array())
+    public static function log($level, $message, array $context = array())
     {
-        $this->logger->log($level, $message, $context);
+        self::$logger->log($level, $message, $context);
     }
 }

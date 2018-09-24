@@ -46,7 +46,7 @@ class GenerateProjectCommand extends Command
         Logger::out($output); //initialise logger
         Logger::out()->notice('Generating project');
         $path = $input->getArgument('path');
-        FilesystemUtil::get($path); //initialise filesystem util
+        FilesystemUtil::initialize($path);
 
         $appGenerator = new AppGenerator();
         $appGenerator->run();

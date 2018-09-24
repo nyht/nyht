@@ -45,7 +45,7 @@ class CreateProjectCommand extends Command
         Logger::out($output); //initialise logger
         Logger::out()->notice('Generating project');
         $path = $input->getArgument('path');
-        FilesystemUtil::get($path); //initialise filesystem util
+        FilesystemUtil::initialize($path);
         $projectCreator = new ProjectCreator();
         $projectCreator->run();
         Logger::out()->notice('Finished');

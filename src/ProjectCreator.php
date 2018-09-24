@@ -29,10 +29,10 @@ class ProjectCreator
 {
     public function run()
     {
-        if (FilesystemUtil::get()->exists()) {
+        if (FilesystemUtil::exists()) {
             throw new \Exception("Folder already exists. Choose another folder and try again");
         }
-        FilesystemUtil::get()->mkdirRoot();
-        FilesystemUtil::get()->mirror(__DIR__.'/project_template');
+        FilesystemUtil::mkdirRoot();
+        FilesystemUtil::mirror(__DIR__.'/project_template');
     }
 }

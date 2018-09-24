@@ -23,71 +23,65 @@ namespace Nyht;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class FilesystemUtil
 {
-    private $path;
-    private $fs;
+    private static $path;
+    private static $fs;
     
     private function __construct(string $path)
     {
-        $this->path = $path;
-        $this->fs = new Filesystem();
     }
 
-    public static function get(string $path = '.')
+    public static function initialize(string $path = '.')
     {
-        static $inst = null;
-        if ($inst === null) {
-            $inst = new FilesystemUtil($path);
-        }
-        return $inst;
+        self::$path = $path;
+        self::$fs = new Filesystem();
     }
 
-    public function exists(string $file = null)
+    public static function exists(string $file = null)
     {
-        return $this->fs->exists($this->path.'/'.$file);
+        return self::$fs->exists(self::$path.'/'.$file);
     }
 
-    public function remove(string $dir)
+    public static function remove(string $dir)
     {
-        $this->fs->remove($this->path.'/'.$dir.'/');
+        self::$fs->remove(self::$path.'/'.$dir.'/');
     }
 
-    public function mkdirRoot()
+    public static function mkdirRoot()
     {
-        $this->fs->mkdir($this->path);
+        self::$fs->mkdir(self::$path);
     }
 
-    public function mkdir(string $dir)
+    public static function mkdir(string $dir)
     {
-        $this->fs->mkdir($this->path.'/'.$dir);
+        self::$fs->mkdir(self::$path.'/'.$dir);
     }
 
-    public function mirror(string $source, string $dest = null)
+    public static function mirror(string $source, string $dest = null)
     {
-        $this->fs->mirror($source, $dest === null ? $this->path : $this->path.'/'.$dest);
+        self::$fs->mirror($source, $dest === null ? self::$path : self::$path.'/'.$dest);
     }
 
-    public function dumpFile(string $file, string $content)
+    public static function dumpFile(string $file, string $content)
     {
-        $this->fs->dumpFile($this->path.'/'.$file, $content);
+        self::$fs->dumpFile(self::$path.'/'.$file, $content);
     }
 
-    public function readFile(string $file)
+    public static function readFile(string $file)
     {
-        return file_get_contents($this->path.'/'.$file);
+        return file_get_contents(self::$path.'/'.$file);
     }
 
-    public function requireFile(string $file)
+    public static function requireFile(string $file)
     {
-        return require($this->path.'/'.$file);
+        return require(self::$path.'/'.$file);
     }
 
-    public function root()
+    public static function root()
     {
-        return $this->path;
+        return self::$path;
     }
 }

@@ -43,12 +43,12 @@ final class ViewGenerator
         foreach ($keys as $table) {
             $tableInfo = $schema[$table];
             ob_start();
-            include FilesystemUtil::get()->root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/index.view.php';
+            include FilesystemUtil::root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/index.view.php';
             $content = ob_get_contents();
             ob_clean();
-            include FilesystemUtil::get()->root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/base.view.php';
+            include FilesystemUtil::root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/base.view.php';
             $base = ob_get_contents();
-            FilesystemUtil::get()->dumpFile(Configuration::VIEW_FOLDER.'/'.$tableInfo[Schema::SANE_NAME].'.index.php', $base);
+            FilesystemUtil::dumpFile(Configuration::VIEW_FOLDER.'/'.$tableInfo[Schema::SANE_NAME].'.index.php', $base);
         }
     }
 }

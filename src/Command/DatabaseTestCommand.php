@@ -43,7 +43,7 @@ class DatabaseTestCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $path = $input->getArgument('path');
-        FilesystemUtil::get($path); //initialise filesystem util
+        FilesystemUtil::initialize($path);
         $configuration = new Configuration();
         $this->conn = DriverManager::getConnection($configuration->get(Configuration::CONNECTION_PARAMETERS));
         $sm = $this->conn->getSchemaManager();

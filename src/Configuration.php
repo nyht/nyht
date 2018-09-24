@@ -62,7 +62,7 @@ final class Configuration
 
     private static function load()
     {
-        $cfgContent = FilesystemUtil::get()->requireFile(Configuration::CONFIG_FILE_NAME);
+        $cfgContent = FilesystemUtil::requireFile(Configuration::CONFIG_FILE_NAME);
         $processor = new Processor();
         self::$configurationData = $processor->processConfiguration(new \Nyht\GenerationConfigurationInterface(), $cfgContent);
     }

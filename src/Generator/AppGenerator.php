@@ -46,8 +46,8 @@ final class AppGenerator
 
     private function clear()
     {
-        FilesystemUtil::get()->remove(Configuration::APPLICATION_FOLDER);
-        FilesystemUtil::get()->mirror(__DIR__.'/../project_template/app', Configuration::APPLICATION_FOLDER);
+        FilesystemUtil::remove(Configuration::APPLICATION_FOLDER);
+        FilesystemUtil::mirror(__DIR__.'/../project_template/app', Configuration::APPLICATION_FOLDER);
     }
 
     private function generateRoutes(array &$schema)
@@ -57,6 +57,6 @@ final class AppGenerator
         foreach ($schema as $table => $info) {
             $routes .= 'require __DIR__.\'/controller/'.$info[Schema::SANE_NAME].'.php\';'.PHP_EOL;
         }
-        FilesystemUtil::get()->dumpFile(Configuration::ROUTES_FILE_NAME, $routes);
+        FilesystemUtil::dumpFile(Configuration::ROUTES_FILE_NAME, $routes);
     }
 }

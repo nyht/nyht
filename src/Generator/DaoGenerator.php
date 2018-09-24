@@ -43,7 +43,7 @@ class DaoGenerator
             $dao .= DaoGenerator::generateCount($table, $tableInfo).PHP_EOL;
             $dao .= DaoGenerator::generateList($table, $tableInfo);
             $filename = Configuration::DAO_FOLDER.'/'.$tableInfo[Schema::SANE_NAME].'.php';
-            FilesystemUtil::get()->dumpFile($filename, $dao);
+            FilesystemUtil::dumpFile($filename, $dao);
         }
     }
 

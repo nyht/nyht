@@ -42,7 +42,7 @@ final class ControllerGenerator
             $controller .= ControllerGenerator::getControllerHeader($tableInfo);
             $controller .= ControllerGenerator::generateIndex($table, $tableInfo);
             $filename = Configuration::CONTROLLER_FOLDER.'/'.$tableInfo[Schema::SANE_NAME].'.php';
-            FilesystemUtil::get()->dumpFile($filename, $controller);
+            FilesystemUtil::dumpFile($filename, $controller);
         }
     }
 
@@ -56,7 +56,7 @@ final class ControllerGenerator
             $controller .= var_export(array_keys($tableInfo[Schema::COLUMNS]), true).';'.PHP_EOL;
         }
         $filename = Configuration::CONTROLLER_FOLDER.'/'.Configuration::BASE_CONTROLLER_FILE_NAME;
-        FilesystemUtil::get()->dumpFile($filename, $controller);
+        FilesystemUtil::dumpFile($filename, $controller);
     }
 
     private static function getControllerHeader(&$tableInfo)

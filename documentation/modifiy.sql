@@ -197,3 +197,14 @@ ALTER TABLE sales.store ALTER COLUMN name nvarchar(50) NOT NULL;
 ALTER TABLE sales.store DROP CONSTRAINT DF_Store_rowguid;
 DROP INDEX AK_Store_rowguid ON sales.store;
 ALTER TABLE sales.store DROP COLUMN rowguid;
+
+ALTER TABLE person.contacttype ALTER COLUMN name nvarchar(50) NOT NULL;
+
+ALTER TABLE purchasing.shipmethod DROP CONSTRAINT DF_ShipMethod_rowguid;
+DROP INDEX AK_ShipMethod_rowguid ON purchasing.shipmethod;
+ALTER TABLE purchasing.shipmethod DROP COLUMN rowguid;
+ALTER TABLE purchasing.shipmethod ALTER COLUMN name nvarchar(50) NOT NULL;
+
+ALTER TABLE purchasing.vendor ALTER COLUMN name nvarchar(50) NOT NULL;
+ALTER TABLE purchasing.vendor ALTER COLUMN preferredvendorstatus bit NOT NULL;
+ALTER TABLE purchasing.vendor ALTER COLUMN activeflag bit NOT NULL;

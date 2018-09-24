@@ -208,3 +208,77 @@ ALTER TABLE purchasing.shipmethod ALTER COLUMN name nvarchar(50) NOT NULL;
 ALTER TABLE purchasing.vendor ALTER COLUMN name nvarchar(50) NOT NULL;
 ALTER TABLE purchasing.vendor ALTER COLUMN preferredvendorstatus bit NOT NULL;
 ALTER TABLE purchasing.vendor ALTER COLUMN activeflag bit NOT NULL;
+
+--SELECT
+--    'ALTER TABLE '+TABLE_SCHEMA+'.'+TABLE_NAME+' DROP CONSTRAINT DF_'+TABLE_NAME+'_ModifiedDate;'+
+--	'ALTER TABLE '+TABLE_SCHEMA+'.'+TABLE_NAME+' DROP COLUMN ModifiedDate;'
+--FROM
+--	INFORMATION_SCHEMA.columns
+--where
+--	column_name = 'ModifiedDate'
+
+ALTER TABLE Production.ScrapReason DROP CONSTRAINT DF_ScrapReason_ModifiedDate;ALTER TABLE Production.ScrapReason DROP COLUMN ModifiedDate;
+ALTER TABLE HumanResources.Shift DROP CONSTRAINT DF_Shift_ModifiedDate;ALTER TABLE HumanResources.Shift DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductCategory DROP CONSTRAINT DF_ProductCategory_ModifiedDate;ALTER TABLE Production.ProductCategory DROP COLUMN ModifiedDate;
+ALTER TABLE Purchasing.ShipMethod DROP CONSTRAINT DF_ShipMethod_ModifiedDate;ALTER TABLE Purchasing.ShipMethod DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductCostHistory DROP CONSTRAINT DF_ProductCostHistory_ModifiedDate;ALTER TABLE Production.ProductCostHistory DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductDescription DROP CONSTRAINT DF_ProductDescription_ModifiedDate;ALTER TABLE Production.ProductDescription DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.ShoppingCartItem DROP CONSTRAINT DF_ShoppingCartItem_ModifiedDate;ALTER TABLE Sales.ShoppingCartItem DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductInventory DROP CONSTRAINT DF_ProductInventory_ModifiedDate;ALTER TABLE Production.ProductInventory DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.SpecialOffer DROP CONSTRAINT DF_SpecialOffer_ModifiedDate;ALTER TABLE Sales.SpecialOffer DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductListPriceHistory DROP CONSTRAINT DF_ProductListPriceHistory_ModifiedDate;ALTER TABLE Production.ProductListPriceHistory DROP COLUMN ModifiedDate;
+ALTER TABLE Person.Address DROP CONSTRAINT DF_Address_ModifiedDate;ALTER TABLE Person.Address DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.SpecialOfferProduct DROP CONSTRAINT DF_SpecialOfferProduct_ModifiedDate;ALTER TABLE Sales.SpecialOfferProduct DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductModel DROP CONSTRAINT DF_ProductModel_ModifiedDate;ALTER TABLE Production.ProductModel DROP COLUMN ModifiedDate;
+ALTER TABLE Person.StateProvince DROP CONSTRAINT DF_StateProvince_ModifiedDate;ALTER TABLE Person.StateProvince DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductModelIllustration DROP CONSTRAINT DF_ProductModelIllustration_ModifiedDate;ALTER TABLE Production.ProductModelIllustration DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductModelProductDescriptionCulture DROP CONSTRAINT DF_ProductModelProductDescriptionCulture_ModifiedDate;ALTER TABLE Production.ProductModelProductDescriptionCulture DROP COLUMN ModifiedDate;
+ALTER TABLE Production.BillOfMaterials DROP CONSTRAINT DF_BillOfMaterials_ModifiedDate;ALTER TABLE Production.BillOfMaterials DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.Store DROP CONSTRAINT DF_Store_ModifiedDate;ALTER TABLE Sales.Store DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductPhoto DROP CONSTRAINT DF_ProductPhoto_ModifiedDate;ALTER TABLE Production.ProductPhoto DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductProductPhoto DROP CONSTRAINT DF_ProductProductPhoto_ModifiedDate;ALTER TABLE Production.ProductProductPhoto DROP COLUMN ModifiedDate;
+ALTER TABLE Production.TransactionHistory DROP CONSTRAINT DF_TransactionHistory_ModifiedDate;ALTER TABLE Production.TransactionHistory DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductReview DROP CONSTRAINT DF_ProductReview_ModifiedDate;ALTER TABLE Production.ProductReview DROP COLUMN ModifiedDate;
+ALTER TABLE Person.BusinessEntity DROP CONSTRAINT DF_BusinessEntity_ModifiedDate;ALTER TABLE Person.BusinessEntity DROP COLUMN ModifiedDate;
+ALTER TABLE Production.TransactionHistoryArchive DROP CONSTRAINT DF_TransactionHistoryArchive_ModifiedDate;ALTER TABLE Production.TransactionHistoryArchive DROP COLUMN ModifiedDate;
+ALTER TABLE Production.ProductSubcategory DROP CONSTRAINT DF_ProductSubcategory_ModifiedDate;ALTER TABLE Production.ProductSubcategory DROP COLUMN ModifiedDate;
+ALTER TABLE Person.BusinessEntityAddress DROP CONSTRAINT DF_BusinessEntityAddress_ModifiedDate;ALTER TABLE Person.BusinessEntityAddress DROP COLUMN ModifiedDate;
+ALTER TABLE Purchasing.ProductVendor DROP CONSTRAINT DF_ProductVendor_ModifiedDate;ALTER TABLE Purchasing.ProductVendor DROP COLUMN ModifiedDate;
+ALTER TABLE Person.BusinessEntityContact DROP CONSTRAINT DF_BusinessEntityContact_ModifiedDate;ALTER TABLE Person.BusinessEntityContact DROP COLUMN ModifiedDate;
+ALTER TABLE Production.UnitMeasure DROP CONSTRAINT DF_UnitMeasure_ModifiedDate;ALTER TABLE Production.UnitMeasure DROP COLUMN ModifiedDate;
+ALTER TABLE Purchasing.Vendor DROP CONSTRAINT DF_Vendor_ModifiedDate;ALTER TABLE Purchasing.Vendor DROP COLUMN ModifiedDate;
+ALTER TABLE Person.ContactType DROP CONSTRAINT DF_ContactType_ModifiedDate;ALTER TABLE Person.ContactType DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.CountryRegionCurrency DROP CONSTRAINT DF_CountryRegionCurrency_ModifiedDate;ALTER TABLE Sales.CountryRegionCurrency DROP COLUMN ModifiedDate;
+ALTER TABLE Person.CountryRegion DROP CONSTRAINT DF_CountryRegion_ModifiedDate;ALTER TABLE Person.CountryRegion DROP COLUMN ModifiedDate;
+ALTER TABLE Production.WorkOrder DROP CONSTRAINT DF_WorkOrder_ModifiedDate;ALTER TABLE Production.WorkOrder DROP COLUMN ModifiedDate;
+ALTER TABLE Purchasing.PurchaseOrderDetail DROP CONSTRAINT DF_PurchaseOrderDetail_ModifiedDate;ALTER TABLE Purchasing.PurchaseOrderDetail DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.CreditCard DROP CONSTRAINT DF_CreditCard_ModifiedDate;ALTER TABLE Sales.CreditCard DROP COLUMN ModifiedDate;
+ALTER TABLE Production.Culture DROP CONSTRAINT DF_Culture_ModifiedDate;ALTER TABLE Production.Culture DROP COLUMN ModifiedDate;
+ALTER TABLE Production.WorkOrderRouting DROP CONSTRAINT DF_WorkOrderRouting_ModifiedDate;ALTER TABLE Production.WorkOrderRouting DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.Currency DROP CONSTRAINT DF_Currency_ModifiedDate;ALTER TABLE Sales.Currency DROP COLUMN ModifiedDate;
+ALTER TABLE Purchasing.PurchaseOrderHeader DROP CONSTRAINT DF_PurchaseOrderHeader_ModifiedDate;ALTER TABLE Purchasing.PurchaseOrderHeader DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.CurrencyRate DROP CONSTRAINT DF_CurrencyRate_ModifiedDate;ALTER TABLE Sales.CurrencyRate DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.Customer DROP CONSTRAINT DF_Customer_ModifiedDate;ALTER TABLE Sales.Customer DROP COLUMN ModifiedDate;
+ALTER TABLE HumanResources.Department DROP CONSTRAINT DF_Department_ModifiedDate;ALTER TABLE HumanResources.Department DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.SalesOrderDetail DROP CONSTRAINT DF_SalesOrderDetail_ModifiedDate;ALTER TABLE Sales.SalesOrderDetail DROP COLUMN ModifiedDate;
+ALTER TABLE HumanResources.JobCandidate DROP CONSTRAINT DF_JobCandidate_ModifiedDate;ALTER TABLE HumanResources.JobCandidate DROP COLUMN ModifiedDate;
+ALTER TABLE Person.EmailAddress DROP CONSTRAINT DF_EmailAddress_ModifiedDate;ALTER TABLE Person.EmailAddress DROP COLUMN ModifiedDate;
+ALTER TABLE HumanResources.Employee DROP CONSTRAINT DF_Employee_ModifiedDate;ALTER TABLE HumanResources.Employee DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.SalesOrderHeader DROP CONSTRAINT DF_SalesOrderHeader_ModifiedDate;ALTER TABLE Sales.SalesOrderHeader DROP COLUMN ModifiedDate;
+ALTER TABLE HumanResources.EmployeeDepartmentHistory DROP CONSTRAINT DF_EmployeeDepartmentHistory_ModifiedDate;ALTER TABLE HumanResources.EmployeeDepartmentHistory DROP COLUMN ModifiedDate;
+ALTER TABLE HumanResources.EmployeePayHistory DROP CONSTRAINT DF_EmployeePayHistory_ModifiedDate;ALTER TABLE HumanResources.EmployeePayHistory DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.SalesOrderHeaderSalesReason DROP CONSTRAINT DF_SalesOrderHeaderSalesReason_ModifiedDate;ALTER TABLE Sales.SalesOrderHeaderSalesReason DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.SalesPerson DROP CONSTRAINT DF_SalesPerson_ModifiedDate;ALTER TABLE Sales.SalesPerson DROP COLUMN ModifiedDate;
+ALTER TABLE Production.Illustration DROP CONSTRAINT DF_Illustration_ModifiedDate;ALTER TABLE Production.Illustration DROP COLUMN ModifiedDate;
+ALTER TABLE Person.AddressType DROP CONSTRAINT DF_AddressType_ModifiedDate;ALTER TABLE Person.AddressType DROP COLUMN ModifiedDate;
+ALTER TABLE Production.Location DROP CONSTRAINT DF_Location_ModifiedDate;ALTER TABLE Production.Location DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.SalesPersonQuotaHistory DROP CONSTRAINT DF_SalesPersonQuotaHistory_ModifiedDate;ALTER TABLE Sales.SalesPersonQuotaHistory DROP COLUMN ModifiedDate;
+ALTER TABLE Person.Person DROP CONSTRAINT DF_Person_ModifiedDate;ALTER TABLE Person.Person DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.SalesReason DROP CONSTRAINT DF_SalesReason_ModifiedDate;ALTER TABLE Sales.SalesReason DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.SalesTaxRate DROP CONSTRAINT DF_SalesTaxRate_ModifiedDate;ALTER TABLE Sales.SalesTaxRate DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.PersonCreditCard DROP CONSTRAINT DF_PersonCreditCard_ModifiedDate;ALTER TABLE Sales.PersonCreditCard DROP COLUMN ModifiedDate;
+ALTER TABLE Person.PersonPhone DROP CONSTRAINT DF_PersonPhone_ModifiedDate;ALTER TABLE Person.PersonPhone DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.SalesTerritory DROP CONSTRAINT DF_SalesTerritory_ModifiedDate;ALTER TABLE Sales.SalesTerritory DROP COLUMN ModifiedDate;
+ALTER TABLE Person.PhoneNumberType DROP CONSTRAINT DF_PhoneNumberType_ModifiedDate;ALTER TABLE Person.PhoneNumberType DROP COLUMN ModifiedDate;
+ALTER TABLE Production.Product DROP CONSTRAINT DF_Product_ModifiedDate;ALTER TABLE Production.Product DROP COLUMN ModifiedDate;
+ALTER TABLE Sales.SalesTerritoryHistory DROP CONSTRAINT DF_SalesTerritoryHistory_ModifiedDate;ALTER TABLE Sales.SalesTerritoryHistory DROP COLUMN ModifiedDate;

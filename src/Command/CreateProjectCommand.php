@@ -46,8 +46,16 @@ class CreateProjectCommand extends Command
         Logger::out()->notice('Generating project');
         $path = $input->getArgument('path');
         FilesystemUtil::initialize($path);
-        $projectCreator = new ProjectCreator();
-        $projectCreator->run();
+        $this->create();
         Logger::out()->notice('Finished');
+    }
+
+    private function create()
+    {
+        if (FilesystemUtil::exists()) {
+            throw new \Exception("Folder already exists. Choose another folder and try again");
+        }
+        FilesystemUtil::mkdirRoot();
+        FilesystemUtil::mirror(__DIR__.'/../project_template');
     }
 }

@@ -50,6 +50,7 @@ final class ViewGenerator
         ob_clean();
         include FilesystemUtil::root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/base.view.php';
         $base = ob_get_contents();
+        ob_end_clean();
         FilesystemUtil::dumpFile(Configuration::VIEW_FOLDER.'/'.$tableInfo->getSaneName().'.index.php', $base);
     }
 
@@ -61,6 +62,7 @@ final class ViewGenerator
         ob_clean();
         include FilesystemUtil::root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/base.view.php';
         $base = ob_get_contents();
+        ob_end_clean();
         FilesystemUtil::dumpFile(Configuration::VIEW_FOLDER.'/'.$tableInfo->getSaneName().'.delete_confirmation.php', $base);
     }
 }

@@ -65,7 +65,7 @@ final class FilesystemUtil
         self::$fs->mirror($source, $dest === null ? self::$path : self::$path.'/'.$dest);
     }
 
-    public static function dumpFile(string $file, string $content)
+    public static function dumpFile(string $file, string &$content)
     {
         self::$fs->dumpFile(self::$path.'/'.$file, $content);
     }

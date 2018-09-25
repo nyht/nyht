@@ -26,8 +26,6 @@ use Nyht\Configuration;
 
 class Schema
 {
-    public const COLUMNS = 'columns';
-    public const METADATA = 'metadata';
     public const SANE_NAME = 'sane_name';
 
     private $schemaManager;
@@ -47,7 +45,7 @@ class Schema
     public function extract() : array
     {
         $this->extractTables();
-        foreach ($this->schema as $table => $tableInfo) {
+        foreach ($this->schema as $table) {
             $this->extractColumns($table);
         }
 
@@ -59,18 +57,21 @@ class Schema
     private function extractTables()
     {
         foreach ($this->schemaManager->listTables() as $table) {
-            $tableName = $table->getName();
-            $tableConfig = Configuration::tableConfig($tableName);
-            $tableSaneName = ($tableConfig && isset($tableConfig[Schema::SANE_NAME])) ? $tableConfig[Schema::SANE_NAME] : $this->saneName($tableName);
-            $this->schema[$tableName] = array(Schema::SANE_NAME => $tableSaneName);
+            $tableConfig = Configuration::tableConfig($table->getName());
+            $saneName = null;
+            if ($tableConfig && isset($tableConfig[Schema::SANE_NAME])) {
+                $saneName = $tableConfig[Schema::SANE_NAME];
+            }
+            $tableInfo = new TableInformation($table->getName(), $saneName);
+            $this->schema[$tableInfo->getName()] = $tableInfo;
         }
     }
 
-    private function extractColumns(string $table)
+    private function extractColumns(TableInformation $table)
     {
-        foreach ($this->schemaManager->listTableColumns($table) as $column) {
-            $this->schema[$table][Schema::COLUMNS][$column->getName()][Schema::METADATA] = $column;
-            $this->schema[$table][Schema::COLUMNS][$column->getName()][Schema::SANE_NAME] = $this->saneName($column->getName());
+        foreach ($this->schemaManager->listTableColumns($table->getName()) as $column) {
+            $column = new ColumnInformation($column->getName());
+            $table->addColumn($column);
         }
     }
 
@@ -82,6 +83,7 @@ class Schema
         $name = str_replace('.', '_', $name);
         $name = str_replace('"', '_', $name);
         $name = str_replace('\'', '_', $name);
+        $name = str_replace('&', '_', $name);
         $name = strtolower($name);
         return $name;
     }

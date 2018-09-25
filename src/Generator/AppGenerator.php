@@ -54,8 +54,8 @@ final class AppGenerator
     {
         $routes = Util::getPhpHeader();
         $routes .= 'require __DIR__.\'/controller/'.Configuration::BASE_CONTROLLER_FILE_NAME.'\';'.PHP_EOL;
-        foreach ($schema as $table => $info) {
-            $routes .= 'require __DIR__.\'/controller/'.$info[Schema::SANE_NAME].'.php\';'.PHP_EOL;
+        foreach ($schema as $tableInfo) {
+            $routes .= 'require __DIR__.\'/controller/'.$tableInfo->getSaneName().'.php\';'.PHP_EOL;
         }
         FilesystemUtil::dumpFile(Configuration::ROUTES_FILE_NAME, $routes);
     }

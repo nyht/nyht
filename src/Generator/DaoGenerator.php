@@ -32,17 +32,17 @@ class DaoGenerator
     {
     }
 
-    public static function generate(array $schema)
+    public static function generate(array &$schema)
     {
-        //ControllerGenerator::generateBaseController($schema);
         $keys = array_keys($schema);
         foreach ($keys as $table) {
             $tableInfo = $schema[$table];
             $dao = Util::getPhpHeader();
             $dao .= DaoGenerator::getDaoHeader();
-            $dao .= DaoGenerator::generateCount($table, $tableInfo).PHP_EOL;
-            $dao .= DaoGenerator::generateList($table, $tableInfo);
-            $filename = Configuration::DAO_FOLDER.'/'.$tableInfo[Schema::SANE_NAME].'.php';
+            $dao .= DaoGenerator::generateCount($tableInfo).PHP_EOL;
+            $dao .= DaoGenerator::generateList($tableInfo).PHP_EOL;
+            $dao .= DaoGenerator::generateGet($tableInfo);
+            $filename = Configuration::DAO_FOLDER.'/'.$tableInfo->getSaneName().'.php';
             FilesystemUtil::dumpFile($filename, $dao);
         }
     }
@@ -55,26 +55,39 @@ class DaoGenerator
         return $php;
     }
 
-    private static function generateCount(string &$table, array &$tableInfo)
+    private static function generateCount(TableInformation &$tableInfo) : string
     {
-        $php = 'function '.$tableInfo[Schema::SANE_NAME].'_dao_count(&$db) {'.PHP_EOL;
+        $php = 'function '.$tableInfo->getSaneName().'_dao_count(&$db) {'.PHP_EOL;
         $php .= '    $qb = $db->createQueryBuilder();'.PHP_EOL;
         $php .= '    $qb->select(\'count(*)\');'.PHP_EOL;
-        $php .= '    $qb->from(\''.$table.'\');'.PHP_EOL;
+        $php .= '    $qb->from(\''.$tableInfo->getName().'\');'.PHP_EOL;
         $php .= '    $stmt = $qb->execute();'.PHP_EOL;
         $php .= '    return intval($stmt->fetchColumn());'.PHP_EOL;
         $php .= '}'.PHP_EOL;
         return $php;
     }
 
-    private static function generateList(string &$table, array &$tableInfo)
+    private static function generateList(TableInformation &$tableInfo) : string
     {
-        $php = 'function '.$tableInfo[Schema::SANE_NAME].'_dao_list(&$db, array $columns, $offset = -1, $limit = -1) {'.PHP_EOL;
+        $php = 'function '.$tableInfo->getSaneName().'_dao_list(&$db, array $columns, $offset = -1, $limit = -1) {'.PHP_EOL;
         $php .= '    $qb = $db->createQueryBuilder();'.PHP_EOL;
         $php .= '    $qb->select($columns);'.PHP_EOL;
-        $php .= '    $qb->from(\''.$table.'\');'.PHP_EOL;
+        $php .= '    $qb->from(\''.$tableInfo->getName().'\');'.PHP_EOL;
         $php .= '    if ($offset >= 0) $qb->setFirstResult($offset);'.PHP_EOL;
         $php .= '    if ($limit >= 0) $qb->setMaxResults($limit);'.PHP_EOL;
+        $php .= '    $stmt = $qb->execute();'.PHP_EOL;
+        $php .= '    return $stmt->fetchAll(FetchMode::ASSOCIATIVE);'.PHP_EOL;
+        $php .= '}'.PHP_EOL;
+        return $php;
+    }
+
+    private static function generateGet(TableInformation &$tableInfo) : string
+    {
+        $php = 'function '.$tableInfo->getSaneName().'_dao_get(&$db, $key, array $columns) {'.PHP_EOL;
+        $php .= '    $qb = $db->createQueryBuilder();'.PHP_EOL;
+        $php .= '    $qb->select($columns);'.PHP_EOL;
+        $php .= '    $qb->from(\''.$tableInfo->getName().'\');'.PHP_EOL;
+        $php .= '    $qb->where("");'.PHP_EOL;
         $php .= '    $stmt = $qb->execute();'.PHP_EOL;
         $php .= '    return $stmt->fetchAll(FetchMode::ASSOCIATIVE);'.PHP_EOL;
         $php .= '}'.PHP_EOL;

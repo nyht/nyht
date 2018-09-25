@@ -32,23 +32,35 @@ final class ViewGenerator
     {
     }
 
-    public static function generate(array $schema)
-    {
-        ViewGenerator::generateIndex($schema);
-    }
-
-    private static function generateIndex(array $schema)
+    public static function generate(array &$schema)
     {
         $keys = array_keys($schema);
         foreach ($keys as $table) {
             $tableInfo = $schema[$table];
-            ob_start();
-            include FilesystemUtil::root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/index.view.php';
-            $content = ob_get_contents();
-            ob_clean();
-            include FilesystemUtil::root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/base.view.php';
-            $base = ob_get_contents();
-            FilesystemUtil::dumpFile(Configuration::VIEW_FOLDER.'/'.$tableInfo[Schema::SANE_NAME].'.index.php', $base);
+            ViewGenerator::generateIndex($schema, $tableInfo);
+            ViewGenerator::generateDeleteConfirmation($schema, $tableInfo);
         }
+    }
+
+    private static function generateIndex(array &$schema, TableInformation &$tableInfo)
+    {
+        ob_start();
+        include FilesystemUtil::root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/index.view.php';
+        $content = ob_get_contents();
+        ob_clean();
+        include FilesystemUtil::root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/base.view.php';
+        $base = ob_get_contents();
+        FilesystemUtil::dumpFile(Configuration::VIEW_FOLDER.'/'.$tableInfo->getSaneName().'.index.php', $base);
+    }
+
+    private static function generateDeleteConfirmation(array &$schema, TableInformation &$tableInfo)
+    {
+        ob_start();
+        include FilesystemUtil::root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/delete_confirmation.view.php';
+        $content = ob_get_contents();
+        ob_clean();
+        include FilesystemUtil::root().'/'.Configuration::VIEW_TEMPLATE_FOLDER.'/base.view.php';
+        $base = ob_get_contents();
+        FilesystemUtil::dumpFile(Configuration::VIEW_FOLDER.'/'.$tableInfo->getSaneName().'.delete_confirmation.php', $base);
     }
 }

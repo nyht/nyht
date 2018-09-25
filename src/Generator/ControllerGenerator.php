@@ -32,7 +32,7 @@ final class ControllerGenerator
     {
     }
 
-    public static function generate(array $schema)
+    public static function generate(array &$schema)
     {
         ControllerGenerator::generateBaseController($schema);
         $keys = array_keys($schema);
@@ -40,8 +40,9 @@ final class ControllerGenerator
             $tableInfo = $schema[$table];
             $controller = Util::getPhpHeader();
             $controller .= ControllerGenerator::getControllerHeader($tableInfo);
-            $controller .= ControllerGenerator::generateIndex($table, $tableInfo);
-            $filename = Configuration::CONTROLLER_FOLDER.'/'.$tableInfo[Schema::SANE_NAME].'.php';
+            $controller .= ControllerGenerator::generateIndex($tableInfo);
+            $controller .= ControllerGenerator::generateDeleteConfirmation($tableInfo);
+            $filename = Configuration::CONTROLLER_FOLDER.'/'.$tableInfo->getSaneName().'.php';
             FilesystemUtil::dumpFile($filename, $controller);
         }
     }
@@ -52,27 +53,27 @@ final class ControllerGenerator
         $keys = array_keys($schema);
         foreach ($keys as $table) {
             $tableInfo = $schema[$table];
-            $controller .= '$tablesInfo[\''.$table.'\'][\'cols\'][\'all\'] = ';
-            $controller .= var_export(array_keys($tableInfo[Schema::COLUMNS]), true).';'.PHP_EOL;
+            $controller .= '$tablesInfo[\''.$tableInfo->getSaneName().'\'][\'cols\'][\'all\'] = ';
+            $controller .= var_export(array_keys($tableInfo->getColumns()), true).';'.PHP_EOL;
         }
         $filename = Configuration::CONTROLLER_FOLDER.'/'.Configuration::BASE_CONTROLLER_FILE_NAME;
         FilesystemUtil::dumpFile($filename, $controller);
     }
 
-    private static function getControllerHeader(&$tableInfo)
+    private static function getControllerHeader(TableInformation &$tableInfo) : string
     {
         $php = 'use \Psr\Http\Message\ServerRequestInterface;'.PHP_EOL;
         $php .= 'use \Psr\Http\Message\ResponseInterface;'.PHP_EOL.PHP_EOL;
         $php .= 'use \Doctrine\DBAL\Query\QueryBuilder;'.PHP_EOL;
         $php .= 'use \Doctrine\DBAL\FetchMode;'.PHP_EOL.PHP_EOL;
         $php .= "require '../vendor/autoload.php';".PHP_EOL.PHP_EOL;
-        $php .= "require __DIR__.'/../dao/".$tableInfo[Schema::SANE_NAME].".php';".PHP_EOL.PHP_EOL;
+        $php .= "require __DIR__.'/../dao/".$tableInfo->getSaneName().".php';".PHP_EOL.PHP_EOL;
         return $php;
     }
 
-    private static function generateIndex(string $table, array &$tableInfo)
+    private static function generateIndex(TableInformation &$tableInfo) : string
     {
-        $saneName = $tableInfo[Schema::SANE_NAME];
+        $saneName = $tableInfo->getSaneName();
         $pageSize = Configuration::get(Configuration::PAGE_SIZE);
         $php = '$app->get(\'/'.$saneName.'/\', function (ServerRequestInterface $request, ResponseInterface $response, array $args) {'.PHP_EOL;
         $php .= '    global $tablesInfo;'.PHP_EOL;
@@ -89,12 +90,22 @@ final class ControllerGenerator
         $php .= '            $offset = $page * '.$pageSize.';'.PHP_EOL;
         $php .= '            $limit = '.$pageSize.';'.PHP_EOL;
         $php .= '        }'.PHP_EOL;
-        $php .= '        $data = '.$tableInfo[Schema::SANE_NAME].'_dao_list($this->db, $tablesInfo[\''.$table.'\'][\'cols\'][\'all\'], $offset, $limit);'.PHP_EOL;
+        $php .= '        $data = '.$saneName.'_dao_list($this->db, $tablesInfo[\''.$saneName.'\'][\'cols\'][\'all\'], $offset, $limit);'.PHP_EOL;
         $php .= '    }'.PHP_EOL;
         $php .= '    $this->renderer->addAttribute(\'data\', $data);'.PHP_EOL;
         $php .= '    $this->renderer->addAttribute(\'rowCount\', $rowCount);'.PHP_EOL;
         $php .= '    $this->renderer->addAttribute(\'currentPage\', $page);'.PHP_EOL;
         $php .= '    $response = $this->renderer->render($response, "'.$saneName.'.index.php");'.PHP_EOL;
+        $php .= '    return $response;'.PHP_EOL;
+        $php .= '});'.PHP_EOL;
+        return $php;
+    }
+
+    private static function generateDeleteConfirmation(TableInformation &$tableInfo) : string
+    {
+        $saneName = $tableInfo->getSaneName();
+        $php = '$app->get(\'/'.$saneName.'/{id}/delete/\', function (ServerRequestInterface $request, ResponseInterface $response, array $args) {'.PHP_EOL;
+        $php .= '    $response = $this->renderer->render($response, "'.$saneName.'.delete_confirmation.php");'.PHP_EOL;
         $php .= '    return $response;'.PHP_EOL;
         $php .= '});'.PHP_EOL;
         return $php;

@@ -1,6 +1,6 @@
 <?php
 
-echo "<h2>$table</h2>".PHP_EOL;
+echo "<h2>{$tableInfo->getName()}</h2>".PHP_EOL;
 echo '<?php'.PHP_EOL;
 echo 'if ($rowCount > 0 && sizeof($data) > 0)'.PHP_EOL;
 echo '{'.PHP_EOL;

@@ -8,6 +8,12 @@ define('OUTPUT_URL', 4);
 
 $escaper = new Zend\Escaper\Escaper();
 
+function __($translationKey)
+{
+    //TODO: Implement real i18n
+    return $translationKey;
+}
+
 function ___($value, $outputType = OUTPUT_HTML)
 {
     global $escaper;

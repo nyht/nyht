@@ -42,6 +42,7 @@ final class AppGenerator
         DaoGenerator::generate($schema);
         ControllerGenerator::generate($schema);
         ViewGenerator::generate($schema);
+        TranslationGenerator::generate($schema);
     }
 
     private function clear()

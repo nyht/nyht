@@ -282,3 +282,423 @@ ALTER TABLE Sales.SalesTerritory DROP CONSTRAINT DF_SalesTerritory_ModifiedDate;
 ALTER TABLE Person.PhoneNumberType DROP CONSTRAINT DF_PhoneNumberType_ModifiedDate;ALTER TABLE Person.PhoneNumberType DROP COLUMN ModifiedDate;
 ALTER TABLE Production.Product DROP CONSTRAINT DF_Product_ModifiedDate;ALTER TABLE Production.Product DROP COLUMN ModifiedDate;
 ALTER TABLE Sales.SalesTerritoryHistory DROP CONSTRAINT DF_SalesTerritoryHistory_ModifiedDate;ALTER TABLE Sales.SalesTerritoryHistory DROP COLUMN ModifiedDate;
+
+select * into tempbkp from [Person].[BusinessEntityAddress]
+
+drop table [Person].[BusinessEntityAddress]
+
+CREATE TABLE [Person].[BusinessEntityAddress](
+	[BusinessEntityAddressID] INT IDENTITY,
+	[BusinessEntityID] [int] NOT NULL,
+	[AddressID] [int] NOT NULL,
+	[AddressTypeID] [int] NOT NULL
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [Person].[BusinessEntityAddress]  WITH CHECK ADD  CONSTRAINT [PK_BusinessEntityAddressID] PRIMARY KEY([BusinessEntityAddressID])
+
+
+ALTER TABLE [Person].[BusinessEntityAddress]  WITH CHECK ADD  CONSTRAINT [FK_BusinessEntityAddress_Address_AddressID] FOREIGN KEY([AddressID])
+REFERENCES [Person].[Address] ([AddressID])
+GO
+
+ALTER TABLE [Person].[BusinessEntityAddress] CHECK CONSTRAINT [FK_BusinessEntityAddress_Address_AddressID]
+GO
+
+ALTER TABLE [Person].[BusinessEntityAddress]  WITH CHECK ADD  CONSTRAINT [FK_BusinessEntityAddress_AddressType_AddressTypeID] FOREIGN KEY([AddressTypeID])
+REFERENCES [Person].[AddressType] ([AddressTypeID])
+GO
+
+ALTER TABLE [Person].[BusinessEntityAddress] CHECK CONSTRAINT [FK_BusinessEntityAddress_AddressType_AddressTypeID]
+GO
+
+ALTER TABLE [Person].[BusinessEntityAddress]  WITH CHECK ADD  CONSTRAINT [FK_BusinessEntityAddress_BusinessEntity_BusinessEntityID] FOREIGN KEY([BusinessEntityID])
+REFERENCES [Person].[BusinessEntity] ([BusinessEntityID])
+GO
+
+create unique index IX_BusinessEntityAddress_BusinessEntityID_AddressID_AddressTypeID
+on [Person].[BusinessEntityAddress] ([BusinessEntityID], [AddressID], [AddressTypeID]);
+
+
+insert into [Person].[BusinessEntityAddress] ([BusinessEntityID], [AddressID], [AddressTypeID]) select * from tempbkp
+
+drop table tempbkp
+
+
+
+
+select * into tempbkp from [Person].[BusinessEntityContact]
+
+/****** Object:  Table [Person].[BusinessEntityContact]    Script Date: 26/09/2018 9:20:42 PM ******/
+DROP TABLE [Person].[BusinessEntityContact]
+GO
+
+
+
+CREATE TABLE [Person].[BusinessEntityContact](
+	[BusinessEntityContactID] INT IDENTITY,
+	[BusinessEntityID] [int] NOT NULL,
+	[PersonID] [int] NOT NULL,
+	[ContactTypeID] [int] NOT NULL,
+ CONSTRAINT [PK_BusinessEntityContact_BusinessEntityContactID] PRIMARY KEY CLUSTERED 
+(
+	[BusinessEntityContactID] ASC
+)
+)
+
+ALTER TABLE [Person].[BusinessEntityContact]  WITH CHECK ADD  CONSTRAINT [FK_BusinessEntityContact_BusinessEntity_BusinessEntityID] FOREIGN KEY([BusinessEntityID])
+REFERENCES [Person].[BusinessEntity] ([BusinessEntityID])
+GO
+
+ALTER TABLE [Person].[BusinessEntityContact] CHECK CONSTRAINT [FK_BusinessEntityContact_BusinessEntity_BusinessEntityID]
+GO
+
+ALTER TABLE [Person].[BusinessEntityContact]  WITH CHECK ADD  CONSTRAINT [FK_BusinessEntityContact_ContactType_ContactTypeID] FOREIGN KEY([ContactTypeID])
+REFERENCES [Person].[ContactType] ([ContactTypeID])
+GO
+
+ALTER TABLE [Person].[BusinessEntityContact] CHECK CONSTRAINT [FK_BusinessEntityContact_ContactType_ContactTypeID]
+GO
+
+ALTER TABLE [Person].[BusinessEntityContact]  WITH CHECK ADD  CONSTRAINT [FK_BusinessEntityContact_Person_PersonID] FOREIGN KEY([PersonID])
+REFERENCES [Person].[Person] ([BusinessEntityID])
+GO
+
+ALTER TABLE [Person].[BusinessEntityContact] CHECK CONSTRAINT [FK_BusinessEntityContact_Person_PersonID]
+GO
+
+insert into [Person].[BusinessEntityContact] ([BusinessEntityID],	[PersonID],	[ContactTypeID]) select * from tempbkp;
+
+drop table tempbkp
+
+select * into tempbkp from [Person].[CountryRegion]
+
+ALTER TABLE [Person].[StateProvince] DROP CONSTRAINT [FK_StateProvince_CountryRegion_CountryRegionCode]
+ALTER TABLE [Sales].[SalesTerritory] DROP CONSTRAINT [FK_SalesTerritory_CountryRegion_CountryRegionCode]
+ALTER TABLE [Sales].[CountryRegionCurrency] DROP CONSTRAINT [PK_CountryRegionCurrency_CountryRegionCode_CurrencyCode] WITH ( ONLINE = OFF )
+ALTER TABLE [Sales].[CountryRegionCurrency] DROP CONSTRAINT [FK_CountryRegionCurrency_CountryRegion_CountryRegionCode]
+
+
+
+
+DROP TABLE [Person].[CountryRegion]
+GO
+
+
+CREATE TABLE [Person].[CountryRegion](
+	CountryRegionID int identity,
+	[CountryRegionCode] [nvarchar](3) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_CountryRegion_CountryRegionID] PRIMARY KEY CLUSTERED 
+(
+	[CountryRegionID] ASC
+)
+) 
+
+insert into [Person].[CountryRegion] ( [CountryRegionCode],[Name]) select * from tempbkp
+
+select * into spbkp from [Person].[StateProvince]
+
+ALTER TABLE [Person].[Address] DROP CONSTRAINT [FK_Address_StateProvince_StateProvinceID]
+GO
+
+ALTER TABLE [Sales].[SalesTaxRate] DROP CONSTRAINT [FK_SalesTaxRate_StateProvince_StateProvinceID]
+
+
+DROP TABLE [Person].[StateProvince]
+GO
+
+
+CREATE TABLE [Person].[StateProvince](
+	[StateProvinceID] [int] IDENTITY(1,1) NOT NULL,
+	[StateProvinceCode] [nchar](3) NOT NULL,
+	[CountryRegionID] int NOT NULL,
+	[IsOnlyStateProvinceFlag] [bit] NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[TerritoryID] [int] NOT NULL,
+ CONSTRAINT [PK_StateProvince_StateProvinceID] PRIMARY KEY CLUSTERED 
+(
+	[StateProvinceID] ASC
+)
+)
+
+ALTER TABLE [Person].[StateProvince] ADD  CONSTRAINT [DF_StateProvince_IsOnlyStateProvinceFlag]  DEFAULT ((1)) FOR [IsOnlyStateProvinceFlag]
+GO
+
+ALTER TABLE [Person].[StateProvince]  WITH CHECK ADD  CONSTRAINT [FK_StateProvince_SalesTerritory_TerritoryID] FOREIGN KEY([TerritoryID])
+REFERENCES [Sales].[SalesTerritory] ([TerritoryID])
+GO
+
+ALTER TABLE [Person].[StateProvince]  WITH CHECK ADD  CONSTRAINT [FK_StateProvince_CountryRegion_CountryRegionId] FOREIGN KEY([CountryRegionID])
+REFERENCES [person].[CountryRegion] ([CountryRegionID])
+GO
+
+ALTER TABLE [Person].[StateProvince] CHECK CONSTRAINT [FK_StateProvince_SalesTerritory_TerritoryID]
+GO
+
+SET IDENTITY_INSERT [Person].[StateProvince] ON
+GO
+insert into [Person].[StateProvince] ([StateProvinceID] ,	[StateProvinceCode] ,[CountryRegionID] ,[IsOnlyStateProvinceFlag] ,	[Name] , [TerritoryID])select [StateProvinceID] ,	[StateProvinceCode] ,[CountryRegionID] ,[IsOnlyStateProvinceFlag] ,	spbkp.[Name] , [TerritoryID] 
+from spbkp join person.CountryRegion cr on spbkp.CountryRegionCode = cr.CountryRegionCode
+
+SET IDENTITY_INSERT [Person].[StateProvince] OFF
+
+drop table spbkp
+
+ALTER TABLE [Sales].[SalesTaxRate]  WITH CHECK ADD  CONSTRAINT [FK_SalesTaxRate_StateProvince_StateProvinceID] FOREIGN KEY([StateProvinceID])
+REFERENCES [Person].[StateProvince] ([StateProvinceID])
+GO
+
+ALTER TABLE [Sales].[SalesTaxRate] CHECK CONSTRAINT [FK_SalesTaxRate_StateProvince_StateProvinceID]
+GO
+
+ALTER TABLE [Person].[Address]  WITH CHECK ADD  CONSTRAINT [FK_Address_StateProvince_StateProvinceID] FOREIGN KEY([StateProvinceID])
+REFERENCES [Person].[StateProvince] ([StateProvinceID])
+GO
+
+ALTER TABLE [Person].[Address] CHECK CONSTRAINT [FK_Address_StateProvince_StateProvinceID]
+GO
+
+select * into stbkp from [Sales].[SalesTerritory]
+
+ALTER TABLE [Person].[StateProvince] DROP CONSTRAINT [FK_StateProvince_SalesTerritory_TerritoryID]
+GO
+
+ALTER TABLE [Sales].[Customer] DROP CONSTRAINT [FK_Customer_Store_StoreID]
+GO
+
+ALTER TABLE [Sales].[SalesOrderHeader] DROP CONSTRAINT [FK_SalesOrderHeader_SalesTerritory_TerritoryID]
+GO
+
+ALTER TABLE [Sales].[SalesPerson] DROP CONSTRAINT [FK_SalesPerson_SalesTerritory_TerritoryID]
+GO
+
+ALTER TABLE [Sales].[SalesTerritoryHistory] DROP CONSTRAINT [FK_SalesTerritoryHistory_SalesTerritory_TerritoryID]
+GO
+
+ALTER TABLE [Sales].[Customer] DROP CONSTRAINT [FK_Customer_SalesTerritory_TerritoryID]
+GO
+
+
+
+DROP TABLE [Sales].[SalesTerritory]
+GO
+
+
+CREATE TABLE [Sales].[SalesTerritory](
+	[TerritoryID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[CountryRegionID] int NOT NULL,
+	[Group] [nvarchar](50) NOT NULL,
+	[SalesYTD] [money] NOT NULL,
+	[SalesLastYear] [money] NOT NULL,
+	[CostYTD] [money] NOT NULL,
+	[CostLastYear] [money] NOT NULL,
+ CONSTRAINT [PK_SalesTerritory_TerritoryID] PRIMARY KEY CLUSTERED 
+(
+	[TerritoryID] ASC
+)
+) 
+GO
+
+set identity_insert [Sales].[SalesTerritory] on
+
+insert into [Sales].[SalesTerritory] ([TerritoryID], [Name], [CountryRegionID], [Group], [SalesYTD], [SalesLastYear], [CostYTD], [CostLastYear]) 
+select [TerritoryID], stbkp.[Name], [CountryRegionID], [Group], [SalesYTD], [SalesLastYear], [CostYTD], [CostLastYear] from stbkp join person.CountryRegion cr on stbkp.CountryRegionCode = cr.CountryRegionCode
+
+set identity_insert [Sales].[SalesTerritory] off
+
+ALTER TABLE [Sales].[SalesTerritory] ADD  CONSTRAINT [DF_SalesTerritory_SalesYTD]  DEFAULT ((0.00)) FOR [SalesYTD]
+GO
+
+ALTER TABLE [Sales].[SalesTerritory] ADD  CONSTRAINT [DF_SalesTerritory_SalesLastYear]  DEFAULT ((0.00)) FOR [SalesLastYear]
+GO
+
+ALTER TABLE [Sales].[SalesTerritory] ADD  CONSTRAINT [DF_SalesTerritory_CostYTD]  DEFAULT ((0.00)) FOR [CostYTD]
+GO
+
+ALTER TABLE [Sales].[SalesTerritory] ADD  CONSTRAINT [DF_SalesTerritory_CostLastYear]  DEFAULT ((0.00)) FOR [CostLastYear]
+GO
+
+ALTER TABLE [Sales].[SalesTerritory]  WITH CHECK ADD  CONSTRAINT [CK_SalesTerritory_CostLastYear] CHECK  (([CostLastYear]>=(0.00)))
+GO
+
+ALTER TABLE [Sales].[SalesTerritory] CHECK CONSTRAINT [CK_SalesTerritory_CostLastYear]
+GO
+
+ALTER TABLE [Sales].[SalesTerritory]  WITH CHECK ADD  CONSTRAINT [CK_SalesTerritory_CostYTD] CHECK  (([CostYTD]>=(0.00)))
+GO
+
+ALTER TABLE [Sales].[SalesTerritory] CHECK CONSTRAINT [CK_SalesTerritory_CostYTD]
+GO
+
+ALTER TABLE [Sales].[SalesTerritory]  WITH CHECK ADD  CONSTRAINT [CK_SalesTerritory_SalesLastYear] CHECK  (([SalesLastYear]>=(0.00)))
+GO
+
+ALTER TABLE [Sales].[SalesTerritory] CHECK CONSTRAINT [CK_SalesTerritory_SalesLastYear]
+GO
+
+ALTER TABLE [Sales].[SalesTerritory]  WITH CHECK ADD  CONSTRAINT [CK_SalesTerritory_SalesYTD] CHECK  (([SalesYTD]>=(0.00)))
+GO
+
+ALTER TABLE [Sales].[SalesTerritory] CHECK CONSTRAINT [CK_SalesTerritory_SalesYTD]
+GO
+
+ALTER TABLE [Person].[StateProvince]  WITH CHECK ADD  CONSTRAINT [FK_StateProvince_SalesTerritory_TerritoryID] FOREIGN KEY([TerritoryID])
+REFERENCES [Sales].[SalesTerritory] ([TerritoryID])
+GO
+
+ALTER TABLE [Sales].[SalesTerritory]  WITH CHECK ADD  CONSTRAINT [FK_SalesTerritory_CountryRegion_CountryRegionID] FOREIGN KEY([CountryRegionID])
+REFERENCES [Person].[CountryRegion] ([CountryRegionID])
+GO
+
+ALTER TABLE [Person].[StateProvince] CHECK CONSTRAINT [FK_StateProvince_SalesTerritory_TerritoryID]
+GO
+
+ALTER TABLE [Sales].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_Store_StoreID] FOREIGN KEY([StoreID])
+REFERENCES [Sales].[Store] ([BusinessEntityID])
+GO
+
+ALTER TABLE [Sales].[Customer] CHECK CONSTRAINT [FK_Customer_Store_StoreID]
+GO
+
+ALTER TABLE [Sales].[SalesOrderHeader]  WITH CHECK ADD  CONSTRAINT [FK_SalesOrderHeader_SalesTerritory_TerritoryID] FOREIGN KEY([TerritoryID])
+REFERENCES [Sales].[SalesTerritory] ([TerritoryID])
+GO
+
+ALTER TABLE [Sales].[SalesOrderHeader] CHECK CONSTRAINT [FK_SalesOrderHeader_SalesTerritory_TerritoryID]
+GO
+
+ALTER TABLE [Sales].[SalesPerson]  WITH CHECK ADD  CONSTRAINT [FK_SalesPerson_SalesTerritory_TerritoryID] FOREIGN KEY([TerritoryID])
+REFERENCES [Sales].[SalesTerritory] ([TerritoryID])
+GO
+
+ALTER TABLE [Sales].[SalesPerson] CHECK CONSTRAINT [FK_SalesPerson_SalesTerritory_TerritoryID]
+GO
+
+ALTER TABLE [Sales].[SalesTerritoryHistory]  WITH CHECK ADD  CONSTRAINT [FK_SalesTerritoryHistory_SalesTerritory_TerritoryID] FOREIGN KEY([TerritoryID])
+REFERENCES [Sales].[SalesTerritory] ([TerritoryID])
+GO
+
+ALTER TABLE [Sales].[SalesTerritoryHistory] CHECK CONSTRAINT [FK_SalesTerritoryHistory_SalesTerritory_TerritoryID]
+GO
+
+ALTER TABLE [Sales].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_SalesTerritory_TerritoryID] FOREIGN KEY([TerritoryID])
+REFERENCES [Sales].[SalesTerritory] ([TerritoryID])
+GO
+
+ALTER TABLE [Sales].[Customer] CHECK CONSTRAINT [FK_Customer_SalesTerritory_TerritoryID]
+GO
+
+drop table stbkp
+
+select * into cubkp from [Sales].[Currency]
+
+ALTER TABLE [Sales].[CurrencyRate] DROP CONSTRAINT [FK_CurrencyRate_Currency_FromCurrencyCode]
+GO
+
+ALTER TABLE [Sales].[CurrencyRate] DROP CONSTRAINT [FK_CurrencyRate_Currency_ToCurrencyCode]
+GO
+
+DROP TABLE [Sales].[Currency]
+GO
+
+
+CREATE TABLE [Sales].[Currency](
+	[CurrencyID] int identity,
+	[CurrencyCode] [nchar](3) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Currency_CurrencyID] PRIMARY KEY CLUSTERED 
+(
+	[CurrencyID] ASC
+)
+) 
+
+insert into [Sales].[Currency] select * from cubkp
+
+drop table cubkp
+
+select * into crbkp from [Sales].[CurrencyRate]
+
+ALTER TABLE [Sales].[SalesOrderHeader] DROP CONSTRAINT [FK_SalesOrderHeader_CurrencyRate_CurrencyRateID]
+GO
+
+DROP TABLE [Sales].[CurrencyRate]
+GO
+
+
+CREATE TABLE [Sales].[CurrencyRate](
+	[CurrencyRateID] [int] IDENTITY(1,1) NOT NULL,
+	[CurrencyRateDate] [datetime] NOT NULL,
+	[FromCurrencyID] int NOT NULL,
+	[ToCurrencyID] int NOT NULL,
+	[AverageRate] [money] NOT NULL,
+	[EndOfDayRate] [money] NOT NULL,
+ CONSTRAINT [PK_CurrencyRate_CurrencyRateID] PRIMARY KEY CLUSTERED 
+(
+	[CurrencyRateID] ASC
+)
+) 
+
+set identity_insert [Sales].[CurrencyRate] ON;
+
+insert into [Sales].[CurrencyRate] ([CurrencyRateID],[CurrencyRateDate],[FromCurrencyID],[ToCurrencyID],[AverageRate],[EndOfDayRate]) 
+select [CurrencyRateID],[CurrencyRateDate],c1.currencyId,c2.currencyID,[AverageRate],[EndOfDayRate] from crbkp join sales.Currency c1 on c1.CurrencyCode = crbkp.FromCurrencyCode join sales.Currency c2 on c2.CurrencyCode = crbkp.ToCurrencyCode
+
+set identity_insert [Sales].[CurrencyRate] off;
+
+ALTER TABLE [Sales].[SalesOrderHeader]  WITH CHECK ADD  CONSTRAINT [FK_SalesOrderHeader_CurrencyRate_CurrencyRateID] FOREIGN KEY([CurrencyRateID])
+REFERENCES [Sales].[CurrencyRate] ([CurrencyRateID])
+GO
+
+ALTER TABLE [Sales].[SalesOrderHeader] CHECK CONSTRAINT [FK_SalesOrderHeader_CurrencyRate_CurrencyRateID]
+GO
+
+ALTER TABLE [Sales].[CurrencyRate]  WITH CHECK ADD  CONSTRAINT [FK_CurrencyRate_Currency_FromCurrencyID] FOREIGN KEY([FromCurrencyID])
+REFERENCES [Sales].[Currency] ([CurrencyID])
+GO
+
+ALTER TABLE [Sales].[CurrencyRate] CHECK CONSTRAINT [FK_CurrencyRate_Currency_FromCurrencyID]
+GO
+
+ALTER TABLE [Sales].[CurrencyRate]  WITH CHECK ADD  CONSTRAINT [FK_CurrencyRate_Currency_ToCurrencyID] FOREIGN KEY([ToCurrencyID])
+REFERENCES [Sales].[Currency] ([CurrencyID])
+GO
+
+ALTER TABLE [Sales].[CurrencyRate] CHECK CONSTRAINT [FK_CurrencyRate_Currency_ToCurrencyID]
+GO
+
+drop table crbkp;
+
+select * into crcbkp from [Sales].[CountryRegionCurrency]
+
+DROP TABLE [Sales].[CountryRegionCurrency]
+GO
+
+CREATE TABLE [Sales].[CountryRegionCurrency](
+	[CountryRegionCurrencyID] int identity,
+	[CountryRegionID] int NOT NULL,
+	[CurrencyID] int NOT NULL
+)
+GO
+
+ALTER TABLE [Sales].[CountryRegionCurrency]  WITH CHECK ADD  CONSTRAINT [FK_CountryRegionCurrency_Currency_CurrencyID] FOREIGN KEY([CurrencyID])
+REFERENCES [Sales].[Currency] ([CurrencyID])
+GO
+
+ALTER TABLE [Sales].[CountryRegionCurrency] CHECK CONSTRAINT [FK_CountryRegionCurrency_Currency_CurrencyID]
+GO
+
+insert into sales.CountryRegionCurrency select [CountryRegionID], cur.[CurrencyID] from crcbkp join person.CountryRegion cr on crcbkp.CountryRegionCode = cr.CountryRegionCode
+join sales.Currency cur on crcbkp.CurrencyCode = cur.CurrencyCode 
+
+drop table crcbkp
+
+ALTER TABLE [Sales].[CountryRegionCurrency]  WITH CHECK ADD  CONSTRAINT [FK_CountryRegionCurrency_CountryRegion_CountryRegionID] FOREIGN KEY([CountryRegionID])
+REFERENCES [Person].[CountryRegion] ([CountryRegionID])
+GO
+
+ALTER TABLE [Sales].[CountryRegionCurrency] CHECK CONSTRAINT [FK_CountryRegionCurrency_CountryRegion_CountryRegionID]
+GO
+
+ALTER TABLE [Sales].[CountryRegionCurrency]  WITH CHECK ADD  CONSTRAINT [PK_CountryRegionCurrencyID] PRIMARY KEY([CountryRegionCurrencyID])
